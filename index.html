@@ -1,0 +1,775 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Мој Увоз</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: a car-import guide — dark navy brand band up top, light working sections below, one orange accent used for actions and the route pin */
+:root{
+  --navy:#0F2A4A; --navy-2:#173a63; --orange:#F58A1F; --orange-ink:#5a2c00;
+  --bg:#F5F6F3; --surface:#FFFFFF; --fg:#13202F; --muted:#56657A; --line:#DCE2E8; --soft:#EAF0F6;
+  --ok:#1E7A55; --warn:#B4391F;
+  --display:"Unbounded", "Arial Black", system-ui, sans-serif;
+  --body:"Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0B1624; --surface:#122236; --fg:#E7EDF4; --muted:#9FB0C3; --line:#24384F; --soft:#17304B;
+  --ok:#5CC79B; --warn:#F0866B; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0B1624; --surface:#122236; --fg:#E7EDF4; --muted:#9FB0C3; --line:#24384F; --soft:#17304B;
+  --ok:#5CC79B; --warn:#F0866B; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.6}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+h1,h2,h3{font-family:var(--display);font-weight:700;letter-spacing:-.01em;text-wrap:balance;margin:0}
+h2{font-size:clamp(26px,3.4vw,38px);line-height:1.15}
+h3{font-size:18px;line-height:1.3}
+p{margin:0}
+a{color:inherit}
+.eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font:700 16px/1 var(--body);padding:16px 22px;border-radius:12px;border:0;cursor:pointer;text-decoration:none}
+.btn-primary{background:var(--orange);color:#1b0d00}
+.btn-primary:hover{filter:brightness(1.06)}
+.btn-ghost{background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.35)}
+.btn-ghost:hover{border-color:#fff}
+:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+
+/* header + hero band (brand navy in both themes) */
+.band{background:var(--navy);color:#fff}
+header{position:sticky;top:env(safe-area-inset-top, 0px);z-index:20;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.08)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top, 0px);z-index:30;background:var(--navy)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:14px}
+.logo{display:flex;align-items:flex-end;gap:8px;font-family:var(--display);font-weight:700;font-size:24px;line-height:1;text-decoration:none;color:#fff}
+.logo .moj{color:var(--orange)}
+.logo svg{margin:0 1px 3px}
+.nav ul{display:flex;gap:26px;list-style:none;margin:0;padding:0;font-weight:600;font-size:15px}
+.nav ul a{text-decoration:none;color:#c9d6e6}
+.nav ul a:hover{color:#fff}
+.nav .btn{padding:12px 16px;font-size:15px}
+@media (max-width:860px){.nav ul{display:none}}
+
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center;padding-block:64px 80px}
+.hero h1{font-size:clamp(34px,5vw,60px);line-height:1.05}
+.hero h1 em{font-style:normal;color:var(--orange)}
+.hero p.lead{color:#c9d6e6;font-size:19px;margin-top:22px;max-width:34em}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
+.chip{font-weight:600;font-size:14px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.08);color:#dfe8f2}
+@media (max-width:900px){.hero{grid-template-columns:1fr;gap:40px;padding-block:44px 56px}}
+
+/* the "road to plates" receipt */
+.receipt{background:#fff;color:#13202F;border-radius:18px;padding:26px 26px 22px;position:relative;max-width:440px;justify-self:end;width:100%}
+@media (max-width:900px){.receipt{justify-self:start}}
+.receipt .head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;border-bottom:2px dashed #d5dde6;padding-bottom:14px}
+.receipt .head b{font-family:var(--display);font-size:17px}
+.receipt .head span{font-family:var(--mono);font-size:12px;color:#5d6c7f}
+.receipt ol{list-style:none;margin:8px 0 0;padding:0;counter-reset:r}
+.receipt li{display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:baseline;padding:11px 0;border-bottom:1px solid #edf1f5;font-size:15px}
+.receipt li::before{counter-increment:r;content:counter(r);font-family:var(--mono);font-size:12px;color:#8a97a8}
+.receipt li em{font-style:normal;font-family:var(--mono);font-size:13px;color:#0F2A4A;background:#eef3f8;padding:3px 8px;border-radius:6px;white-space:nowrap}
+.receipt .foot{margin-top:14px;font-size:13px;color:#5d6c7f}
+.receipt .pin{position:absolute;top:-22px;right:22px}
+
+section{padding-block:80px}
+.sec-head{display:grid;gap:12px;max-width:720px;margin-bottom:40px}
+.sec-head p{color:var(--muted)}
+
+/* VIN check */
+.vin{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:36px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+@media (max-width:860px){.vin{grid-template-columns:1fr;padding:24px}}
+.vin label{font-weight:700;display:block;margin-bottom:8px}
+.vin-row{display:flex;gap:10px;flex-wrap:wrap}
+.vin input{flex:1 1 240px;min-width:0;font:500 18px var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:15px 16px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--fg)}
+.vin input:focus{border-color:var(--orange);outline:none}
+.hint{font-size:14px;color:var(--muted);margin-top:10px}
+.err{color:var(--warn);font-weight:600;font-size:14px;margin-top:10px}
+.vin ul{margin:16px 0 0;padding-left:20px;color:var(--muted)}
+.vin ul li{margin:4px 0}
+.disclose{font-size:13px;color:var(--muted);margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
+
+/* steps */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;list-style:none;margin:0;padding:0;counter-reset:s}
+@media (max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.steps{grid-template-columns:1fr}}
+.steps li{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:grid;gap:10px;align-content:start}
+.steps li::before{counter-increment:s;content:counter(s);font-family:var(--display);font-size:22px;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--orange);color:#1b0d00}
+.steps p{color:var(--muted);font-size:15px}
+.steps .who{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+
+/* costs table */
+.costs{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+@media (max-width:860px){.costs{grid-template-columns:1fr}}
+.tbl{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.tbl th,.tbl td{text-align:left;padding:14px 18px;border-bottom:1px solid var(--line);vertical-align:top;font-size:15px}
+.tbl th{font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--soft)}
+.tbl td:last-child{font-family:var(--mono);font-size:14px;white-space:nowrap}
+.tbl tr:last-child td{border-bottom:0}
+.note{background:var(--soft);border-radius:16px;padding:24px;display:grid;gap:10px}
+.note b{font-family:var(--display);font-size:16px}
+
+/* scams */
+.flags{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px}
+.flag{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:22px;display:grid;gap:8px;align-content:start}
+.flag .tag{font-family:var(--mono);font-size:12px;color:var(--warn);letter-spacing:.06em;text-transform:uppercase}
+.flag p{color:var(--muted);font-size:15px}
+.rule{margin-top:20px;background:var(--navy);color:#fff;border-radius:16px;padding:22px 26px;font-family:var(--display);font-size:clamp(17px,2vw,21px);line-height:1.35}
+.rule span{color:var(--orange)}
+
+/* form */
+.formwrap{display:grid;grid-template-columns:.8fr 1.2fr;gap:48px;align-items:start}
+@media (max-width:900px){.formwrap{grid-template-columns:1fr}}
+form.req{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:30px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:560px){form.req{grid-template-columns:1fr;padding:20px}}
+.f{display:grid;gap:6px;min-width:0}
+.f.full{grid-column:1/-1}
+.f label{font-weight:700;font-size:14px}
+.f input,.f select,.f textarea{font:500 16px var(--body);padding:13px 14px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--fg);width:100%}
+.f input:focus,.f select:focus,.f textarea:focus{border-color:var(--orange);outline:none}
+.types{display:flex;flex-wrap:wrap;gap:8px}
+.types input{position:absolute;opacity:0;width:1px;height:1px}
+.types label{font-weight:600;font-size:15px;padding:10px 16px;border-radius:999px;border:1.5px solid var(--line);cursor:pointer;background:var(--bg)}
+.types input:checked + label{background:var(--navy);border-color:var(--navy);color:#fff}
+.types input:focus-visible + label{outline:3px solid var(--orange);outline-offset:2px}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
+.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--orange)}
+.done{grid-column:1/-1;background:var(--soft);border-radius:12px;padding:16px 18px;font-weight:600}
+.points{display:grid;gap:18px;margin-top:26px}
+.points div{display:grid;grid-template-columns:28px 1fr;gap:12px}
+.points svg{margin-top:4px}
+.points p{color:var(--muted);font-size:15px}
+
+/* transparency + faq */
+.money{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media (max-width:860px){.money{grid-template-columns:1fr}}
+.money div{border-top:3px solid var(--orange);padding-top:16px;display:grid;gap:8px}
+.money p{color:var(--muted);font-size:15px}
+details{border-bottom:1px solid var(--line);padding-block:18px}
+summary{cursor:pointer;font-weight:700;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px}
+summary::after{content:"+";font-family:var(--mono);color:var(--orange);font-size:22px;line-height:1}
+details[open] summary::after{content:"–"}
+details p{color:var(--muted);margin-top:10px;max-width:65ch}
+
+footer{background:var(--navy);color:#c9d6e6;padding-block:44px;font-size:14px}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;align-items:center}
+.demo{font-family:var(--mono);font-size:12px;letter-spacing:.04em;background:var(--orange);color:#1b0d00;text-align:center;padding:8px 16px}
+@media (prefers-reduced-motion:no-preference){.hero h1,.hero .lead,.receipt{animation:up .7s ease both}.receipt{animation-delay:.15s}@keyframes up{from{transform:translateY(14px)}to{transform:none}}}
+
+/* model guide */
+.mpick{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:18px;scroll-snap-type:x proximity}
+.mpick button{flex:0 0 auto;scroll-snap-align:start;font:600 15px var(--body);padding:10px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--surface);color:var(--fg);cursor:pointer;white-space:nowrap}
+.mpick button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.mcard{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:28px;display:grid;gap:22px}
+.mcard .top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:baseline}
+.mcard .yrs{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.rep{display:inline-block;font-weight:700;font-size:14px;padding:6px 12px;border-radius:999px;background:var(--soft)}
+.mgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media (max-width:860px){.mgrid{grid-template-columns:1fr}}
+.mgrid h4{margin:0 0 8px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.mgrid ul{margin:0;padding-left:18px;color:var(--muted);font-size:15px}
+.mgrid li{margin:5px 0}
+.mgrid .plus h4{color:var(--ok)}
+.mgrid .minus h4{color:var(--warn)}
+.mgrid .chk h4{color:var(--orange)}
+.msearch{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:24px;margin-bottom:22px}
+.msearch label{font-weight:700;display:block;margin-bottom:10px;font-size:18px}
+.msearch input{flex:1 1 240px;min-width:0;font:600 19px var(--body);padding:16px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--fg)}
+.msearch input:focus{border-color:var(--orange);outline:none}
+.pop{font-weight:700;font-size:15px;color:var(--muted);margin:0 0 10px}
+.choice{display:flex;flex-wrap:wrap;gap:10px}
+.choice button{font:600 17px var(--body);padding:15px 18px;border-radius:12px;border:1.5px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer;text-align:left}
+.choice button:hover{border-color:var(--orange)}
+.mcard{scroll-margin-top:90px}
+@media (max-width:600px){.msearch{padding:18px}.msearch .btn{width:100%}}
+.mnote{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:600px){.mcard{padding:18px;gap:16px}}
+.ai{margin-top:28px;background:var(--navy);color:#fff;border-radius:20px;padding:28px;display:grid;gap:16px}
+.ai h3{font-size:20px}
+.ai p.sub{color:#c9d6e6;font-size:15px}
+.ai-row{display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:10px}
+@media (max-width:760px){.ai-row{grid-template-columns:1fr 1fr}.ai-row .wide,.ai-row .btn{grid-column:1/-1}}
+.ai input,.ai select{font:500 16px var(--body);padding:13px 14px;border-radius:10px;border:1.5px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff;width:100%;min-width:0}
+.ai select option{color:#13202F}
+.ai input::placeholder{color:#9fb0c3}
+.ai input:focus,.ai select:focus{border-color:var(--orange);outline:none}
+.ai .err{color:#ffb39e}
+.ai-badge{display:inline-flex;gap:6px;align-items:center;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--orange)}
+#aiOut{margin-top:4px}
+#aiOut .mcard{color:var(--fg)}
+.ai-wait{color:#c9d6e6;font-size:15px}
+@media (max-width:600px){.ai{padding:20px}}
+.mbar{display:none}
+@media (max-width:600px){
+ body{font-size:16px;padding-bottom:calc(84px + env(safe-area-inset-bottom, 0px))}
+ section{padding-block:52px}
+ .sec-head{margin-bottom:26px}
+ .demo{font-size:11px;padding:6px 12px}
+ .nav .btn{display:none}
+ .hero{padding-block:32px 44px}
+ .hero p.lead{font-size:17px;margin-top:16px}
+ .hero .ctas{display:none}
+ .chips{margin-top:22px}
+ .receipt{padding:20px 18px 16px}
+ .receipt li{padding:9px 0;font-size:14px}
+ .vin{padding:20px;gap:22px}
+ .vin .btn{width:100%}
+ .steps{gap:10px}
+ .steps li{grid-template-columns:44px 1fr;column-gap:14px;row-gap:2px;padding:16px}
+ .steps li::before{grid-row:1 / span 3}
+ .steps li h3{font-size:16px}
+ .flags{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding-bottom:8px;margin-right:calc(-1 * max(16px, env(safe-area-inset-right, 0px)))}
+ .flag{flex:0 0 78%;scroll-snap-align:start}
+ .swipe{display:block !important}
+ form.req{padding:18px;gap:14px}
+ .points{gap:12px;margin-top:18px}
+ .mbar{display:flex;gap:10px;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--navy);padding:12px max(16px, env(safe-area-inset-right, 0px)) calc(12px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));border-top:1px solid rgba(255,255,255,.1)}
+ .mbar .btn{flex:1;padding:15px 10px;font-size:15px}
+}
+.swipe{display:none;font-family:var(--mono);font-size:12px;color:var(--muted);margin:-14px 0 14px}
+</style>
+
+<div class="demo">Пробна верзија · формуларот и линковите се примери, уште ништо не се праќа</div>
+
+<header>
+ <div class="wrap nav">
+  <a class="logo" href="#pocetok" aria-label="Мој Увоз, почеток"><span class="moj">мој</span><span style="display:flex;align-items:flex-end">ув<svg width="14" height="21" viewBox="0 0 150 220" aria-hidden="true"><path d="M75 10 c-40 0 -68 30 -68 68 c0 55 68 132 68 132 s68 -77 68 -132 c0 -38 -28 -68 -68 -68z" fill="#F58A1F"/><circle cx="75" cy="78" r="28" fill="#0F2A4A"/></svg>з</span></a>
+  <ul>
+   <li><a href="#kako">Како работи</a></li>
+   <li><a href="#trosoci">Трошоци</a></li>
+   <li><a href="#proverka">Проверка</a></li>
+   <li><a href="#modeli">Модели</a></li>
+   <li><a href="#izmami">Измами</a></li>
+  </ul>
+  <a class="btn btn-primary" href="#barane">Побарај возило</a>
+ </div>
+</header>
+
+<div class="band" id="pocetok">
+ <div class="wrap hero">
+  <div>
+   <div class="eyebrow">Увоз на возила од Европа</div>
+   <h1 style="margin-top:16px">Возило од Европа, <em>без изненадувања</em> на царина.</h1>
+   <p class="lead">Ви покажуваме колку навистина чини, што да проверите пред да платите и кој ќе ви го донесе возилото до таблички.</p>
+   <div class="ctas">
+    <a class="btn btn-primary" href="#barane">Побарај возило по нарачка</a>
+    <a class="btn btn-ghost" href="#proverka">Провери историја по шасија</a>
+   </div>
+   <div class="chips" aria-label="Што увезуваме"><span class="chip">Коли</span><span class="chip">Комбиња</span><span class="chip">Камиони</span><span class="chip">Градежни машини</span></div>
+  </div>
+  <aside class="receipt" aria-label="Што влегува во вкупната цена">
+   <svg class="pin" width="34" height="50" viewBox="0 0 150 220" aria-hidden="true"><path d="M75 10 c-40 0 -68 30 -68 68 c0 55 68 132 68 132 s68 -77 68 -132 c0 -38 -28 -68 -68 -68z" fill="#F58A1F"/><circle cx="75" cy="78" r="28" fill="#fff"/></svg>
+   <div class="head"><b>Од огласот до таблички</b><span>DE → МК</span></div>
+   <ol>
+    <li>Цена на возилото<em>по оглас</em></li>
+    <li>Превоз со шлеп<em>обично 400–800 €</em></li>
+    <li>Царина<em>0% ЕУ · 5% друго</em></li>
+    <li>ДДВ<em>18%</em></li>
+    <li>Данок на моторни возила<em>вредност + CO2</em></li>
+    <li>Шпедитер, преглед, регистрација<em>фиксно</em></li>
+   </ol>
+   <p class="foot">Давачките се пресметуваат според каталошката вредност на возилото, не според цената што сте ја платиле.</p>
+  </aside>
+ </div>
+</div>
+
+<section id="proverka">
+ <div class="wrap">
+  <div class="vin">
+   <div class="sec-head" style="margin:0">
+    <div class="eyebrow">Чекор пред плаќање</div>
+    <h2>Проверете ја историјата по број на шасија</h2>
+    <p>Километри низ годините, сообраќајки, кражба, увоз од други земји. Една проверка чини многу помалку од една грешка.</p>
+   </div>
+   <form id="vinForm" novalidate>
+    <label for="vinInput">Број на шасија (VIN)</label>
+    <div class="vin-row">
+     <input id="vinInput" name="vin" maxlength="17" autocomplete="off" spellcheck="false" placeholder="WBA8E9C55GK000000" aria-describedby="vinHint vinErr">
+     <button class="btn btn-primary" type="submit">Провери историја</button>
+    </div>
+    <p class="hint" id="vinHint">17 знаци. Го има во сообраќајната и на долниот агол на шофершајбната.</p>
+    <p class="err" id="vinErr" hidden></p>
+    <ul>
+     <li>Извештајот го издава carVertical</li>
+     <li>Го добивате веднаш на е-пошта</li>
+    </ul>
+    <p class="disclose">Мој Увоз добива мала провизија ако купите извештај преку овој линк. Вие не плаќате ништо повеќе.</p>
+   </form>
+  </div>
+ </div>
+</section>
+
+<section id="kako" style="padding-top:0">
+ <div class="wrap">
+  <div class="sec-head">
+   <div class="eyebrow">Како работи</div>
+   <h2>Вие кажувате што барате. Проверен партнер го носи.</h2>
+   <p>Не продаваме возила. Ве поврзуваме со фирма за увоз што ја проверивме, а цената за вас е иста како да одите директно.</p>
+  </div>
+  <ol class="steps">
+   <li><span class="who">Вие</span><h3>Пополнувате барање</h3><p>Тип, модел, буџет и година. Две минути.</p></li>
+   <li><span class="who">Мој Увоз</span><h3>Го праќаме кај партнер</h3><p>Кај една фирма, не кај десет. Нема да ве бомбардираат со повици.</p></li>
+   <li><span class="who">Партнер</span><h3>Понуда со вкупна цена</h3><p>Возило, превоз и давачки однапред, пред да платите било што.</p></li>
+   <li><span class="who">Партнер</span><h3>Носење до таблички</h3><p>Превоз, царинење, преглед и регистрација. Обично 2–4 недели.</p></li>
+  </ol>
+ </div>
+</section>
+
+<section id="barane" style="background:var(--surface);border-block:1px solid var(--line)">
+ <div class="wrap formwrap">
+  <div>
+   <div class="sec-head" style="margin:0">
+    <div class="eyebrow">Барање</div>
+    <h2>Кажете ни што барате</h2>
+    <p>Барањето оди кај еден проверен партнер за увоз, кој ви се јавува со понуда.</p>
+   </div>
+   <div class="points">
+    <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><p><b style="color:var(--fg)">Бесплатно и без обврска.</b> Плаќате само ако ја прифатите понудата.</p></div>
+    <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><p><b style="color:var(--fg)">Вкупна цена однапред.</b> Со превоз и давачки, без доплати.</p></div>
+    <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2.5" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><p><b style="color:var(--fg)">Еден повик, не десет.</b> Вашите податоци одат само кај еден партнер.</p></div>
+   </div>
+  </div>
+  <form class="req" id="reqForm" novalidate>
+   <fieldset class="f full" style="border:0;padding:0;margin:0">
+    <legend style="font-weight:700;font-size:14px;margin-bottom:6px">Што ви треба?</legend>
+    <div class="types">
+     <input type="radio" name="vid" id="v-najdi" value="najdi" checked><label for="v-najdi">Најдете ми возило</label>
+     <input type="radio" name="vid" id="v-imam" value="imam"><label for="v-imam">Веќе најдов возило</label>
+    </div>
+   </fieldset>
+   <div class="f full" id="linkBox" hidden><label for="link">Линк до огласот</label><input id="link" inputmode="url" placeholder="https://www.mobile.de/... или tutti.ch/..."><span class="hint" style="margin:0">Ќе ви пратиме вкупна цена до таблички и што да проверите пред да платите.</span></div>
+   <fieldset class="f full" style="border:0;padding:0;margin:0">
+    <legend style="font-weight:700;font-size:14px;margin-bottom:6px">Тип на возило</legend>
+    <div class="types">
+     <input type="radio" name="tip" id="t-kola" value="Кола" checked><label for="t-kola">Кола</label>
+     <input type="radio" name="tip" id="t-kombe" value="Комбе"><label for="t-kombe">Комбе</label>
+     <input type="radio" name="tip" id="t-kamion" value="Камион"><label for="t-kamion">Камион</label>
+     <input type="radio" name="tip" id="t-masina" value="Машина"><label for="t-masina">Градежна машина</label>
+    </div>
+   </fieldset>
+   <div class="f"><label for="model">Марка и модел</label><input id="model" placeholder="пр. Golf 7, VW Crafter" value="Škoda Octavia Combi"></div>
+   <div class="f"><label for="budzet">Буџет до таблички</label><select id="budzet"><option>до 8.000 €</option><option selected>8.000–15.000 €</option><option>15.000–25.000 €</option><option>над 25.000 €</option></select></div>
+   <div class="f"><label for="godina">Година од</label><input id="godina" inputmode="numeric" maxlength="4" value="2018"></div>
+   <div class="f"><label for="gorivo">Гориво</label><select id="gorivo"><option selected>Дизел</option><option>Бензин</option><option>Хибрид</option><option>Електрично</option><option>Сеедно</option></select></div>
+   <div class="f"><label for="ime">Име</label><input id="ime" autocomplete="given-name" placeholder="Вашето име"></div>
+   <div class="f"><label for="tel">Телефон или Viber</label><input id="tel" inputmode="tel" autocomplete="tel" placeholder="07x xxx xxx"></div>
+   <div class="f full"><label for="zabeleska">Нешто друго? (по избор)</label><textarea id="zabeleska" rows="3" placeholder="Боја, менувач, опрема..."></textarea></div>
+   <label class="check f full" for="soglasnost"><input type="checkbox" id="soglasnost"><span>Се согласувам податоците да се проследат до еден партнер за увоз, само за ова барање.</span></label>
+   <p class="err f full" id="reqErr" hidden></p>
+   <button class="btn btn-primary f full" type="submit">Испрати барање</button>
+   <p class="done" id="reqDone" hidden></p>
+  </form>
+ </div>
+</section>
+
+<section id="trosoci" style="background:var(--surface);border-block:1px solid var(--line)">
+ <div class="wrap costs">
+  <div>
+   <div class="sec-head">
+    <div class="eyebrow">Трошоци</div>
+    <h2>Цената на огласот не е крајната цена</h2>
+    <p>Овие ставки се плаќаат при секој увоз. Колку точно, зависи од возилото.</p>
+   </div>
+   <div style="overflow-x:auto">
+   <table class="tbl">
+    <thead><tr><th>Ставка</th><th>Колку</th></tr></thead>
+    <tbody>
+     <tr><td>Превоз со шлеп од Германија</td><td>обично 400–800 €</td></tr>
+     <tr><td>Царина, потекло од ЕУ со доказ</td><td>0%</td></tr>
+     <tr><td>Царина, без доказ или надвор од ЕУ</td><td>5%</td></tr>
+     <tr><td>ДДВ</td><td>18%</td></tr>
+     <tr><td>Данок на моторни возила</td><td>вредност и CO2</td></tr>
+    </tbody>
+   </table>
+   </div>
+  </div>
+  <div class="note">
+   <b>Пред да купите</b>
+   <p>Пресметајте ги давачките на официјалниот калкулатор на Царинската управа, па додајте превоз и регистрација.</p>
+   <p>Проверете дали возилото ги исполнува условите за хомологација. Ако не ги исполнува, нема да може да се регистрира.</p>
+   <p>Доказ за потекло од ЕУ е EUR.1 или изјава на фактурата. Без него плаќате 5% царина.</p>
+  </div>
+ </div>
+</section>
+
+<section id="modeli" style="padding-bottom:0">
+ <div class="wrap">
+  <div class="sec-head">
+   <div class="eyebrow">Водич по модели</div>
+   <h2>Што најчесто откажува и што да проверите</h2>
+   <p>Напишете кој модел и која година ве интересира. Ќе ви покажеме репутација, плусови, слаби точки и што да проверите пред купување.</p>
+  </div>
+  <form class="msearch" id="msearch" role="search" novalidate>
+   <label for="mq">Марка, модел и година</label>
+   <div class="vin-row"><input id="mq" placeholder="пр. Golf 2015 или Passat 2017" autocomplete="off" enterkeyhint="search"><button class="btn btn-primary" type="submit">Пребарај</button></div>
+   <p class="hint">Може и на кирилица, на пример „Голф 2015“ или „БМВ 320d 2014“.</p>
+  </form>
+  <p class="pop">Или изберете некој од најбараните:</p>
+  <div class="mpick" id="mpick" role="group" aria-label="Изберете модел"></div>
+  <article class="mcard" id="mcard" aria-live="polite"></article>
+  <div class="ai" id="aiBox">
+   <span class="ai-badge">✦ AI проверка</span>
+   <h3>Вашиот модел го нема? Напишете го.</h3>
+   <p class="sub">Внесете марка, модел и година. Добивате плусови, слаби точки и на што да внимавате пред купување.</p>
+   <form id="aiForm" novalidate>
+    <div class="ai-row">
+     <input class="wide" id="aiModel" placeholder="пр. Opel Astra J 1.7 CDTI" aria-label="Марка и модел" autocomplete="off">
+     <input id="aiGod" inputmode="numeric" maxlength="4" placeholder="Година" aria-label="Година">
+     <select id="aiGor" aria-label="Гориво"><option value="">Гориво</option><option>Дизел</option><option>Бензин</option><option>Хибрид</option><option>Електрично</option><option>ТНГ</option></select>
+     <button class="btn btn-primary" type="submit" id="aiBtn">Анализирај</button>
+    </div>
+    <p class="err" id="aiErr" hidden></p>
+   </form>
+   <div id="aiOut" aria-live="polite"></div>
+  </div>
+ </div>
+</section>
+
+<section id="izmami">
+ <div class="wrap">
+  <div class="sec-head">
+   <div class="eyebrow">Измами</div>
+   <h2>Пет знаци дека огласот е замка</h2>
+  </div>
+  <p class="swipe">Лизгајте настрана →</p>
+  <div class="flags">
+   <div class="flag"><span class="tag">Знак 1</span><h3>Премногу евтино</h3><p>Многу пониска цена од слични возила на истиот сајт.</p></div>
+   <div class="flag"><span class="tag">Знак 2</span><h3>Капар однапред</h3><p>Продавачот е „во странство“ и бара уплата пред да го видите возилото.</p></div>
+   <div class="flag"><span class="tag">Знак 3</span><h3>Негов превозник</h3><p>Ве праќа на „своја“ фирма за превоз или посредник за плаќање.</p></div>
+   <div class="flag"><span class="tag">Знак 4</span><h3>Брзање</h3><p>„Имам уште тројца купувачи, мора денес.“</p></div>
+   <div class="flag"><span class="tag">Знак 5</span><h3>Без преглед</h3><p>Не дава број на шасија или не дозволува преглед.</p></div>
+  </div>
+  <p class="rule">Правило број 1: <span>не плаќајте ништо пред да ги видите возилото и документите.</span></p>
+ </div>
+</section>
+
+
+
+<section>
+ <div class="wrap" style="max-width:820px">
+  <div class="sec-head"><div class="eyebrow">Прашања</div><h2>Најчести прашања</h2></div>
+  <details><summary>Колку трае увозот?</summary><p>Обично 2–4 недели од купувањето до таблички, зависно од превозот и царинењето.</p></details>
+  <details><summary>Дали плаќам нешто на Мој Увоз?</summary><p>Не. Барањето е бесплатно. Провизијата ја плаќа партнерот, а вашата цена е иста.</p></details>
+  <details><summary>Што е хомологација и зошто е важна?</summary><p>Проверка дали возилото ги исполнува условите за регистрација кај нас. Царинската управа советува да се провери пред купување.</p></details>
+  <details><summary>Може ли возило од Швајцарија?</summary><p>Може. Швајцарија не е во ЕУ, па возилото се одјавува и поминува извозна царинска постапка таму. Царината кај нас зависи од потеклото и доказот за потекло.</p></details>
+ </div>
+</section>
+
+<footer>
+ <div class="wrap">
+  <a class="logo" href="#pocetok" aria-label="Мој Увоз, почеток"><span class="moj">мој</span><span style="display:flex;align-items:flex-end">ув<svg width="14" height="21" viewBox="0 0 150 220" aria-hidden="true"><path d="M75 10 c-40 0 -68 30 -68 68 c0 55 68 132 68 132 s68 -77 68 -132 c0 -38 -28 -68 -68 -68z" fill="#F58A1F"/><circle cx="75" cy="78" r="28" fill="#0F2A4A"/></svg>з</span></a>
+  <div style="display:grid;gap:6px"><p>Совети за увоз на возила од Европа · Facebook · Instagram · TikTok</p><p style="color:#8fa3ba">© 2026 Мој Увоз. Сите права задржани. Името, логото и содржината на страницата не смеат да се користат без дозвола.</p></div>
+ </div>
+</footer>
+
+<nav class="mbar" aria-label="Брзи акции"><a class="btn btn-primary" href="#barane">Побарај возило</a><a class="btn btn-ghost" href="#proverka">Провери шасија</a></nav>
+
+<script>
+const CARVERTICAL_LINK = "https://www.carvertical.com/"; // ќе се замени со партнерскиот линк
+const MODELI = [
+ {k:'golf7',n:'VW Golf 7',y:'2012–2020',rep:'Добра · најпроверениот Golf',
+  plus:['Добро држење на пат и избалансирана шасија','Ја чува вредноста при препродажба','Делови има насекаде и се евтини'],
+  minus:['Пумпа за вода и куќиште на термостат протекуваат, најчесто кај 2013–2014','DSG со 7 брзини (сува спојка) кај 1.2 и 1.4 TSI: тресење и мехатроника','Тропање од предниот трап по 150.000 км','Турбо кај TSI моторите'],
+  chk:['Доказ за замена на масло во DSG','Ниво на течност за ладење и суви траги околу пумпата','Целосна сервисна книшка']},
+ {k:'octavia3',n:'Škoda Octavia 3',y:'2013–2020',rep:'Многу добра · над просекот во класата',
+  plus:['Огромен простор и багажник, особено Combi','Удобна за долги патувања','Мала потрошувачка'],
+  minus:['Пластична пумпа за вода и термостат кај бензинците','DSG: тресење или тврдо менување, најмногу кај 2013–2016','Затнат DPF и EGR кај дизелите ако се вози само по град'],
+  chk:['На пробна вожња менувачот да менува меко','Дали дизелот возел на подолги релации','Сервисна историја']},
+ {k:'passat',n:'VW Passat B8',y:'2014–2023',rep:'Добра · еден од најдобрите семејни каравани',
+  plus:['Удобен и тивок на автопат','Голем простор, добро опремен','Најдобар избор: 2.0 TDI или 1.5 TSI'],
+  minus:['Пумпа за вода и модул на термостат','AdBlue системот кај дизелите често дава грешки','Затнати одводи на шибер: вода во кабината и електроника','DSG без редовно сервисирање'],
+  chk:['Доказ за сервис на DSG','Сув под и тепих под шиберот','Без AdBlue предупредувања на таблата']},
+ {k:'bmw3',n:'BMW 3 F30',y:'2012–2019',rep:'Солидна · одлична за возење, скапа ако е запуштена',
+  plus:['Најдобро возење во класата, заден погон','Автоматскиот менувач ZF со 8 брзини е многу издржлив','Многу сервиси ги знаат сите слабости'],
+  minus:['Ланец на разводот кај бензинците 320i/328i до 2015','Ланец кај постарите 320d дизели','Многу се службени возила со голема километража'],
+  chk:['Ладен старт: тракање од моторот е знак за ланецот','Километража по шасија (често намалувана)','Подобро по фејслифтот од 2015']},
+ {k:'a4b9',n:'Audi A4 B9',y:'2015–2024',rep:'Добра · многу подобра од претходната B8',
+  plus:['Премиум ентериер и многу технологија','Тивка и рафинирана вожња','12 години гаранција против корозија'],
+  minus:['AdBlue резервоар, пумпа и грејач кај дизелите, скапо за поправка','EGR вентилот се затнува кај дизелите','Затегнувач на ланецот кај 2.0 TFSI пред 2019','Мала потрошувачка на масло кај бензинците'],
+  chk:['Без AdBlue грешки на таблата','Сервис на S tronic менувачот','Дали е возена на автопат']},
+ {k:'c205',n:'Mercedes C W205',y:'2014–2021',rep:'Мешана · престиж, но скапо одржување',
+  plus:['Убав дизајн однадвор и одвнатре','Удобна и тивка','Се продава лесно'],
+  minus:['DPF, NOx сензори и AdBlue кај дизелите','Трап, а кај некои и воздушно вешање','Протекување на ладилникот за клима','Ланец кај раните бензинци ако сервисите доцнеле','Скапи делови и работа'],
+  chk:['Сервиси на време, со фактури','Клима ладна на пробната вожња','Без пропаѓање или удари во трапот']},
+ {k:'t6',n:'VW Transporter T6',y:'2015–2024',rep:'Многу добра · работен коњ што ја чува цената',
+  plus:['Цврст и разновиден, комби и патнички','Висока цена при препродажба','Вози речиси како кола'],
+  minus:['EGR вентил, најчесто кај посилните мотори','Затнат DPF при кратки релации по град','AdBlue грешки','Проблеми со ладењето кај 2016–2017','Вода низ задната врата, лизгачката врата'],
+  chk:['Без лампички за мотор или AdBlue','Лизгачката врата да оди лесно','Траги од вода во товарниот простор']},
+ {k:'sprinter',n:'Mercedes Sprinter W906',y:'2006–2018',rep:'Добра · едно од најиздржливите комбиња',
+  plus:['Силни и издржливи мотори','Голем товарен простор и носивост','Сервиси и делови насекаде'],
+  minus:['’Рѓа, најмногу кај постарите години','Заптивки (дихтунзи) на инјекторите: тивко дување од моторот','AdBlue може да го стави во безбеден режим','Сајлите на менувачот, тешко влегува 5. и 6. брзина','Многу отповикувања во сервис'],
+  chk:['Под возилото: прагови, шасија, носачи','Дали се направени отповикувањата','Колку подоцна година, толку подобро']}
+];
+const mpick = document.getElementById('mpick'), mcard = document.getElementById('mcard');
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const li = a => a.map(x => `<li>${esc(x)}</li>`).join('');
+function showModel(k){
+  const m = MODELI.find(x => x.k === k) || MODELI[0];
+  mpick.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.k === m.k));
+  mcard.innerHTML = `<div class="top"><h3 style="font-size:22px">${esc(m.n)}</h3><span class="yrs">${esc(m.y)}</span></div>
+  <div><span class="rep">Репутација: ${esc(m.rep)}</span></div>
+  <div class="mgrid"><div class="plus"><h4>Плусови</h4><ul>${li(m.plus)}</ul></div>
+  <div class="minus"><h4>Што најчесто откажува</h4><ul>${li(m.minus)}</ul></div>
+  <div class="chk"><h4>Проверете пред купување</h4><ul>${li(m.chk)}</ul></div></div>
+  <div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn btn-primary" href="#barane" data-ask="${esc(m.n)}">Побарај ${esc(m.n)}</a><a class="btn" style="border:1.5px solid var(--line);color:var(--fg)" href="#proverka">Провери по шасија</a></div>
+  <p class="mnote">Ова се општи искуства за моделот. Секое возило е различно: проверете ја историјата по шасија и сервисната книшка пред да платите.</p>`;
+  mcard.querySelector('[data-ask]').addEventListener('click', () => { document.getElementById('model').value = m.n; });
+}
+MODELI.forEach(m => { const b = document.createElement('button'); b.type = 'button'; b.dataset.k = m.k; b.textContent = m.n; b.addEventListener('click', () => showModel(m.k)); mpick.appendChild(b); });
+showModel('golf7');
+
+MODELI.push(
+ {k:'golf6',n:'VW Golf 6',y:'2008–2012',rep:'Добра · издржлив, евтини делови',
+  plus:['Цврста изработка','Делови има насекаде и се евтини','1.6 и 2.0 TDI се издржливи'],
+  minus:['1.2 и 1.4 TSI: истегнување на ланецот на развод','DSG со 7 брзини (сува спојка): тресење и мехатроника','Двомасен замаец кај дизелите','Пумпа за вода'],
+  chk:['Ладен старт: тракање кај TSI значи ланец','Мек потег од место кај DSG','Сервисна историја']},
+ {k:'golf8',n:'VW Golf 8',y:'2020–денес',rep:'Добра механика · слаб софтвер',
+  plus:['Модерен и штедлив','Многу асистенти и опрема','Мала потрошувачка кај 2.0 TDI'],
+  minus:['Екранот и софтверот се блокираат и рестартираат','Копчиња на допир, незгодни во возење','AdBlue кај дизелите'],
+  chk:['Сите софтверски ажурирања направени','Екранот и камерата да работат','Без AdBlue предупредувања']},
+ {k:'passatb7',n:'VW Passat B7',y:'2010–2014',rep:'Добра · сигурен работен коњ',
+  plus:['Голем простор и багажник','2.0 TDI е издржлив и штедлив','Евтини делови'],
+  minus:['1.8 и 2.0 TSI трошат масло','DSG без редовно сервисирање','Електрична рачна кочница','Двомасен замаец и DPF кај дизелите'],
+  chk:['Кај бензинците: колку масло долева','Сервис на DSG','Дали е возен само по град']},
+ {k:'octavia2',n:'Škoda Octavia 2',y:'2004–2013',rep:'Многу добра · едноставна и издржлива',
+  plus:['1.9 и 2.0 TDI се речиси неуништливи','Голем багажник','Евтино одржување'],
+  minus:['1.2 и 1.4 TSI: ланец на развод','DSG со сува спојка кај помалите мотори','Двомасен замаец','Старост: трап, гумички, ’рѓа одоздолу'],
+  chk:['Состојба на трапот','Ладен старт','Километража по шасија (често намалувана)']},
+ {k:'superb3',n:'Škoda Superb 3',y:'2015–2023',rep:'Многу добра · најмногу простор за парите',
+  plus:['Огромен простор позади и багажник','Удобен на автопат','Добра опрема за цената'],
+  minus:['Пумпа за вода и термостат кај бензинците','DSG без сервис','DPF и AdBlue кај дизелите'],
+  chk:['Сервис на DSG','Без AdBlue грешки','Сервисна книшка']},
+ {k:'tiguan1',n:'VW Tiguan 1',y:'2007–2016',rep:'Средна · многу зависи од моторот',
+  plus:['Висока положба на седење','4Motion: погон на сите тркала','2.0 TDI е добар избор'],
+  minus:['1.4 TSI: ланец на развод и клипови','Спојката за 4Motion бара редовен сервис','Двомасен замаец','DPF кај дизелите'],
+  chk:['Избегнувајте 1.4 TSI без докази за поправки','Сервис на 4Motion спојката','Ладен старт']},
+ {k:'tiguan2',n:'VW Tiguan 2',y:'2016–2024',rep:'Добра · модерен и практичен',
+  plus:['Простран и практичен','Добро возење и опрема','2.0 TDI е штедлив'],
+  minus:['AdBlue и DPF кај дизелите','DSG без сервис','Електроника и сензори'],
+  chk:['Без AdBlue грешки','Сервис на DSG','Сите сензори и камери да работат']},
+ {k:'polo5',n:'VW Polo 5',y:'2009–2017',rep:'Добра · евтино градско возило',
+  plus:['Мала потрошувачка','Евтини делови и сервис','Лесно за паркирање'],
+  minus:['1.2 TSI до 2012: ланец на развод','DSG со сува спојка','Бензинскиот 1.2 со 3 цилиндри е слаб и вибрира'],
+  chk:['Ладен старт','Мек потег од место кај DSG','Сервисна историја']},
+ {k:'a4b8',n:'Audi A4 B8',y:'2008–2015',rep:'Средна · добар дизел, проблематичен бензин',
+  plus:['Квалитетен ентериер','2.0 TDI е добар избор','Quattro варијанти'],
+  minus:['1.8 и 2.0 TFSI трошат многу масло','Multitronic автоматскиот менувач често откажува','Ланец на развод кај TFSI','Двомасен замаец'],
+  chk:['Избегнувајте Multitronic без доказ за поправка','Кај бензинците: колку масло долева','Сервисна историја']},
+ {k:'a6c7',n:'Audi A6 C7',y:'2011–2018',rep:'Добра · удобна, но скапа за поправка',
+  plus:['Многу удобна на долги патувања','Квалитетен ентериер','3.0 TDI е силен и издржлив'],
+  minus:['Ланци на развод кај 3.0 TDI на голема километража (скапа поправка)','Multitronic кај преден погон','Воздушно вешање кај Allroad','Скапи делови'],
+  chk:['Ладен старт: тракање од ланците','Кај Allroad: дали возилото стои рамно','Сервисна историја со фактури']},
+ {k:'bmw3e90',n:'BMW 3 E90',y:'2005–2012',rep:'Средна · добро возење, внимавајте на моторот',
+  plus:['Одлично возење, заден погон','330d е многу издржлив','Многу сервиси го познаваат'],
+  minus:['320d од 2007 до 2011: ланец на развод','Инјектори кај некои бензинци','Протекување масло од моторот','Електрична пумпа за вода кај бензинците'],
+  chk:['Ладен старт: тракање од моторот','Траги од масло','Километража по шасија']},
+ {k:'bmw5f10',n:'BMW 5 F10',y:'2010–2017',rep:'Добра · удобен, скап ако е запуштен',
+  plus:['Многу удобен и тивок','530d е силен и издржлив','Автоматскиот менувач со 8 брзини е издржлив'],
+  minus:['Раните 520d: ланец на развод','Скапи делови и поправки','Трап и воздушно вешање позади','Многу се службени возила со голема километража'],
+  chk:['Ладен старт','Километража по шасија','Состојба на трапот']},
+ {k:'c204',n:'Mercedes C W204',y:'2007–2014',rep:'Средна · удобен, но ’рѓосува',
+  plus:['Удобен и тивок','Класичен Mercedes','Цврста механика кај дизелите'],
+  minus:['’Рѓа на вратите, багажникот и околу табличката','Инјектори кај раните 220 и 250 CDI','Ланец кај бензинците','Електроника и сензори'],
+  chk:['’Рѓа на рабовите на вратите и багажникот','Ладен старт','Сервисна историја']},
+ {k:'e212',n:'Mercedes E W212',y:'2009–2016',rep:'Добра · многу удобна',
+  plus:['Многу удобна на долги патувања','Издржлива механика','Голем багажник кај караванот'],
+  minus:['Инјектори кај раните 220 и 250 CDI','’Рѓа кај постарите години','Скапи делови','Воздушно вешање кај некои'],
+  chk:['Ладен старт и мирен празен од','’Рѓа на рабовите','Сервисна книшка']},
+ {k:'astraj',n:'Opel Astra J',y:'2009–2015',rep:'Средна · евтина за купување',
+  plus:['Евтина за купување и делови','Удобна','Голем избор на огласи'],
+  minus:['EGR и DPF кај 1.7 и 2.0 CDTI','Двомасен замаец','Турбо кај 1.4 Turbo','Електроника'],
+  chk:['Без лампички за мотор','Тресење при тргнување (замаец)','Сервисна историја']},
+ {k:'insigniaa',n:'Opel Insignia A',y:'2008–2017',rep:'Средна · многу возило за малку пари',
+  plus:['Голема и удобна','Евтина за купување','Добро опремена'],
+  minus:['EGR, DPF и двомасен замаец кај 2.0 CDTI','Турбо','Автоматскиот менувач кај некои','Електроника'],
+  chk:['Без лампички за мотор','Тресење при тргнување','Дали е возена само по град']},
+ {k:'focus3',n:'Ford Focus 3',y:'2011–2018',rep:'Средна · одлично возење, внимавајте на менувачот',
+  plus:['Одлично држење на пат','Евтини делови','Голем избор на огласи'],
+  minus:['PowerShift автоматскиот менувач: тресење и дефекти','1.0 EcoBoost: проблеми со ладењето и главата','Електроника на мултимедијата'],
+  chk:['Избегнувајте PowerShift без доказ за поправка','Кај 1.0 EcoBoost: ниво на течност за ладење','Сервисна историја']},
+ {k:'megane3',n:'Renault Mégane 3',y:'2008–2016',rep:'Средна · евтина, слаба електроника',
+  plus:['Многу евтина','1.5 dCi е штедлив','Удобна'],
+  minus:['1.5 dCi: лежишта на радилицата ако маслото не е менувано на време','Електроника и картичката за палење','Двомасен замаец'],
+  chk:['Доказ дека маслото е менувано на време','Сите копчиња и електроника да работат','Тракање од моторот']},
+ {k:'p308',n:'Peugeot 308',y:'2013–2021',rep:'Средна · зависи од моторот',
+  plus:['Модерен ентериер','Мала потрошувачка','Удобна'],
+  minus:['1.2 PureTech: ременот на развод во масло се распаѓа','AdBlue кај дизелите BlueHDi','Електроника и екран'],
+  chk:['Кај 1.2 PureTech: дали е менуван ременот','Без AdBlue грешки','Сервисна историја']},
+ {k:'corolla',n:'Toyota Auris / Corolla хибрид',y:'2012–2022',rep:'Одлична · меѓу најсигурните возила',
+  plus:['Хибридниот погон е многу издржлив','Многу мала потрошувачка по град','Нема спојка, турбо ниту DPF'],
+  minus:['Послаба при претекнување','Моторот е гласен при силен гас','Помалку забавна за возење'],
+  chk:['Дијагностика на хибридната батерија','Сервисна историја','Километража по шасија']},
+ {k:'caddy',n:'VW Caddy',y:'2004–2020',rep:'Многу добра · работен коњ',
+  plus:['Издржлив и практичен','Евтин сервис','1.9 и 2.0 TDI се издржливи'],
+  minus:['Двомасен замаец и квачило','DPF кај поновите дизели','Лизгачки врати и брави'],
+  chk:['Тресење при тргнување','Лизгачките врати','Траги од тешка работа во товарниот простор']},
+ {k:'t5',n:'VW Transporter T5',y:'2003–2015',rep:'Добра · избегнувајте рани 2.5 TDI',
+  plus:['Издржлив и цврст','Ја чува цената','Вози слично како кола'],
+  minus:['Раните 2.5 TDI (5 цилиндри): брегаста и мотор','Двомасен замаец и квачило','EGR кај 2.0 TDI','Лизгачка врата'],
+  chk:['Квачилото на угорнина','Траги од тешка работа','Сервисна историја']},
+ {k:'transit',n:'Ford Transit',y:'2014–денес',rep:'Добра · евтино одржување',
+  plus:['Евтини делови и сервис','Голем простор','Многу верзии'],
+  minus:['2.0 EcoBlue: ремен на развод во масло','AdBlue и DPF','’Рѓа кај постарите','Квачило и замаец'],
+  chk:['Кога е менуван ременот','Без AdBlue грешки','’Рѓа одоздолу']},
+ {k:'trafic',n:'Renault Trafic / Opel Vivaro',y:'2014–денес',rep:'Средна · евтин за купување',
+  plus:['Евтин','Мала потрошувачка','Голем товарен простор'],
+  minus:['1.6 dCi: турбо и двомасен замаец','EGR и DPF','Електроника'],
+  chk:['Тресење при тргнување','Без лампички за мотор','Сервисна историја']},
+ {k:'daily',n:'Iveco Daily',y:'2014–денес',rep:'Многу добра · издржлив како камион',
+  plus:['Шасија како на камион, многу издржлив','Носи многу','3.0 моторот е многу издржлив'],
+  minus:['Груб и бучен','Поголема потрошувачка кај 3.0','Квачило и менувач кај преоптоварени','’Рѓа на шасијата кај постарите'],
+  chk:['Шасијата одоздолу','Квачилото','Дали било преоптоварувано']}
+);
+
+const NOW = 2026;
+const FAM = [
+ {b:['vw'],n:'VW Golf',al:['golf'],g:[['golf6',2008,2012,['6','vi','mk6']],['golf7',2012,2020,['7','vii','mk7']],['golf8',2020,NOW,['8','viii','mk8']]]},
+ {b:['vw'],n:'VW Passat',al:['passat','pasat'],g:[['passatb7',2010,2014,['b7']],['passat',2014,2023,['b8']]]},
+ {b:['vw'],n:'VW Tiguan',al:['tiguan'],g:[['tiguan1',2007,2016,['1']],['tiguan2',2016,2024,['2']]]},
+ {b:['vw'],n:'VW Polo',al:['polo'],g:[['polo5',2009,2017,['5','6r','6c']]]},
+ {b:['vw'],n:'VW Caddy',al:['caddy','kedi','keddi','kadi','kaddy'],g:[['caddy',2004,2020,[]]]},
+ {b:['vw'],n:'VW Transporter',al:['transporter','multivan','caravelle','karavela','t5','t6','t6.1'],g:[['t5',2003,2015,['t5']],['t6',2015,2024,['t6','t6.1']]]},
+ {b:['skoda'],n:'Škoda Octavia',al:['octavia','oktavija','oktavia'],g:[['octavia2',2004,2013,['2','ii']],['octavia3',2013,2020,['3','iii']]]},
+ {b:['skoda'],n:'Škoda Superb',al:['superb'],g:[['superb3',2015,2023,['3','iii']]]},
+ {b:['audi'],n:'Audi A4',al:['a4'],g:[['a4b8',2008,2015,['b8']],['a4b9',2015,2024,['b9']]]},
+ {b:['audi'],n:'Audi A6',al:['a6'],g:[['a6c7',2011,2018,['c7']]]},
+ {b:['bmw'],n:'BMW серија 3',al:['serija 3','seria 3','3 series','3er','trojka','bmw 3','bmv 3','e90','e91','f30','f31','316','318','320','325','330','316d','318d','320d','320i','325d','330d','330i'],g:[['bmw3e90',2005,2012,['e90','e91']],['bmw3',2012,2019,['f30','f31']]]},
+ {b:['bmw'],n:'BMW серија 5',al:['serija 5','seria 5','5 series','5er','petica','bmw 5','bmv 5','f10','f11','520','525','530','520d','525d','530d'],g:[['bmw5f10',2010,2017,['f10','f11']]]},
+ {b:['mercedes'],n:'Mercedes C-класа',al:['c klasa','c klase','c class','c180','c200','c220','c250','w204','w205'],g:[['c204',2007,2014,['w204','204']],['c205',2014,2021,['w205','205']]]},
+ {b:['mercedes'],n:'Mercedes E-класа',al:['e klasa','e klase','e class','e200','e220','e250','e350','w212'],g:[['e212',2009,2016,['w212','212']]]},
+ {b:['mercedes'],n:'Mercedes Sprinter',al:['sprinter'],g:[['sprinter',2006,2018,['w906','906']]]},
+ {b:['opel'],n:'Opel Astra',al:['astra'],g:[['astraj',2009,2015,['j']]]},
+ {b:['opel'],n:'Opel Insignia',al:['insignia','insignija'],g:[['insigniaa',2008,2017,['a']]]},
+ {b:['ford'],n:'Ford Focus',al:['focus','fokus'],g:[['focus3',2011,2018,['3','iii']]]},
+ {b:['ford'],n:'Ford Transit',al:['transit','tranzit'],g:[['transit',2014,NOW,[]]]},
+ {b:['renault'],n:'Renault Mégane',al:['megane','megan'],g:[['megane3',2008,2016,['3','iii']]]},
+ {b:['renault','opel'],n:'Renault Trafic / Opel Vivaro',al:['trafic','trafik','vivaro'],g:[['trafic',2014,NOW,[]]]},
+ {b:['peugeot'],n:'Peugeot 308',al:['308'],g:[['p308',2013,2021,[]]]},
+ {b:['toyota'],n:'Toyota Auris / Corolla',al:['corolla','korola','auris'],g:[['corolla',2012,2022,[]]]},
+ {b:['iveco'],n:'Iveco Daily',al:['daily','dejli','dejly'],g:[['daily',2014,NOW,[]]]}
+];
+const BRANDS = {vw:['vw','volkswagen','folksvagen','folcvagen','folksvagn'],skoda:['skoda'],audi:['audi'],bmw:['bmw','bmv'],mercedes:['mercedes','merc','mercedez','benz'],opel:['opel'],ford:['ford'],renault:['renault','reno'],peugeot:['peugeot','pezo','pezho','pezot'],toyota:['toyota','tojota'],iveco:['iveco','iveko']};
+const TR = {'а':'a','б':'b','в':'v','г':'g','д':'d','ѓ':'gj','е':'e','ж':'z','з':'z','ѕ':'dz','и':'i','ј':'j','к':'k','л':'l','љ':'lj','м':'m','н':'n','њ':'nj','о':'o','п':'p','р':'r','с':'s','т':'t','ќ':'kj','у':'u','ф':'f','х':'h','ц':'c','ч':'c','џ':'dz','ш':'s','й':'j','ы':'i','э':'e','ю':'ju','я':'ja','щ':'s','ь':'','ъ':''};
+const norm = s => (' ' + s.toLowerCase().replace(/[Ѐ-ӿ]/g, c => (c in TR ? TR[c] : c)).replace(/[š]/g,'s').replace(/[čć]/g,'c').replace(/[ž]/g,'z').replace(/[éèë]/g,'e').replace(/[^a-z0-9.]+/g,' ') + ' ').replace(/\s+/g,' ');
+const has = (n, a) => n.includes(' ' + a + ' ');
+const gname = k => MODELI.find(m => m.k === k).n;
+function clearPressed(){ mpick.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', 'false')); }
+function toCard(){ mcard.scrollIntoView({behavior:'smooth', block:'start'}); }
+function choices(title, items){
+  clearPressed();
+  mcard.innerHTML = `<h3 style="font-size:20px">${esc(title)}</h3><div class="choice"></div>`;
+  const box = mcard.querySelector('.choice');
+  items.forEach(it => { const b = document.createElement('button'); b.type = 'button'; b.textContent = it.l; b.addEventListener('click', it.f); box.appendChild(b); });
+  toCard();
+}
+function notFound(q){
+  clearPressed();
+  mcard.innerHTML = `<h3 style="font-size:20px">„${esc(q)}“ уште го немаме во водичот</h3>
+  <p>Не грижете. Прашајте нè и ќе ви одговориме кои се плусовите, минусите и на што да внимавате за ова возило.</p>
+  <div><a class="btn btn-primary" href="#barane" id="askBtn">Прашај за ова возило</a></div>`;
+  mcard.querySelector('#askBtn').addEventListener('click', () => {
+    document.getElementById('model').value = q;
+    document.getElementById('zabeleska').value = `Прашање за модел: ${q}. Кои се плусовите, минусите и на што да внимавам?`;
+  });
+  toCard();
+}
+function showGen(k){ showModel(k); clearPressed(); mpick.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.k === k)); toCard(); }
+function pickFam(f, n, year, q){
+  let g = f.g.find(x => x[3].some(c => has(n, c)));
+  if (!g && year){ g = f.g.find(x => year >= x[1] && year <= x[2]); if (!g) return notFound(q); }
+  if (!g && f.g.length === 1) g = f.g[0];
+  if (!g) return choices(`Која генерација ${f.n}?`, f.g.map(x => ({l:`${gname(x[0])} (${x[1]}–${x[2] >= NOW ? 'денес' : x[2]})`, f:() => showGen(x[0])})));
+  showGen(g[0]);
+}
+function searchModel(q){
+  q = q.trim(); if (!q) return;
+  const n = norm(q);
+  const ym = n.match(/ (19[89]\d|20[0-3]\d) /); const year = ym ? +ym[1] : null;
+  let fams = FAM.filter(f => f.al.some(a => has(n, a)));
+  if (fams.length > 1){ const best = Math.max(...fams.map(f => Math.max(...f.al.filter(a => has(n, a)).map(a => a.length)))); fams = fams.filter(f => f.al.some(a => has(n, a) && a.length === best)); }
+  if (fams.length === 1) return pickFam(fams[0], n, year, q);
+  if (fams.length > 1) return choices('На кое возило мислите?', fams.map(f => ({l:f.n, f:() => pickFam(f, n, year, q)})));
+  const br = Object.keys(BRANDS).find(b => BRANDS[b].some(a => has(n, a)));
+  if (br){ const bf = FAM.filter(f => f.b.includes(br)); return choices('Кој модел?', [...bf.map(f => ({l:f.n, f:() => pickFam(f, n, year, q)})), {l:'Друг модел', f:() => notFound(q)}]); }
+  notFound(q);
+}
+document.getElementById('msearch').addEventListener('submit', e => { e.preventDefault(); searchModel(document.getElementById('mq').value); });
+(async () => {
+  const box = document.getElementById('aiBox'), form = document.getElementById('aiForm'), out = document.getElementById('aiOut'), err = document.getElementById('aiErr'), btn = document.getElementById('aiBtn');
+  let sample = null;
+  try { sample = await window.claude?.use?.('sample'); } catch(e) { sample = null; }
+  if (!sample) { box.hidden = true; return; }
+  let ctrl = null;
+  const showErr = t => { err.textContent = t; err.hidden = false; };
+  form.addEventListener('input', () => { err.hidden = true; });
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const model = document.getElementById('aiModel').value.trim(), god = document.getElementById('aiGod').value.trim(), gor = document.getElementById('aiGor').value;
+    const now = new Date().getFullYear();
+    if (model.length < 2) return showErr('Напишете марка и модел.');
+    if (!/^\d{4}$/.test(god) || +god < 1980 || +god > now) return showErr(`Внесете година помеѓу 1980 и ${now}.`);
+    if (ctrl) ctrl.abort();
+    ctrl = new AbortController();
+    btn.disabled = true; btn.textContent = 'Анализирам...';
+    out.innerHTML = '<p class="ai-wait">Ги собирам искуствата за овој модел...</p>';
+    const prompt = `Ти си искусен автомеханичар и советник за увоз на половни возила од Германија и Швајцарија во Македонија.
+Корисникот бара: возило „${model}“, година ${god}${gor ? ', гориво: ' + gor : ''}.
+Дај кратка, конкретна и искрена анализа за таа генерација/година, на македонски јазик (кирилица, не бугарски ни српски).
+Врати САМО JSON без друг текст, во оваа форма:
+{"ok":true,"naziv":"точно име на моделот и генерацијата","godini":"години на производство на генерацијата","rep":"оценка во неколку зборови","plus":["3-4 плуса"],"minus":["4-5 типични дефекти и слаби точки за таа година/мотор"],"chk":["4-5 конкретни работи што купувачот да провери пред да плати"],"saveti":"една реченица: на што посебно да внимава при увоз (пр. AdBlue, Euro норма, хомологација, километража)"}
+Секоја ставка максимум 15 зборови. Ако внесеното не е вистинско возило, врати {"ok":false}.`;
+    try {
+      let r;
+      if (typeof sample.json === 'function') r = await sample.json(prompt, {signal: ctrl.signal});
+      else { const t = (await sample(prompt, {signal: ctrl.signal})).text; r = JSON.parse(t.slice(t.indexOf('{'), t.lastIndexOf('}') + 1)); }
+      if (!r || r.ok === false || !Array.isArray(r.plus)) { out.innerHTML = ''; showErr('Не го препознав ова возило. Проверете ја марката и моделот.'); return; }
+      const arr = a => Array.isArray(a) ? a.map(String) : [];
+      const naziv = String(r.naziv || model);
+      out.innerHTML = `<article class="mcard"><div class="top"><h3 style="font-size:22px">${esc(naziv)} · ${esc(god)}</h3><span class="yrs">${esc(String(r.godini || ''))}</span></div>
+      ${r.rep ? `<div><span class="rep">Репутација: ${esc(String(r.rep))}</span></div>` : ''}
+      <div class="mgrid"><div class="plus"><h4>Плусови</h4><ul>${li(arr(r.plus))}</ul></div>
+      <div class="minus"><h4>Минуси и чести дефекти</h4><ul>${li(arr(r.minus))}</ul></div>
+      <div class="chk"><h4>На што да внимавате</h4><ul>${li(arr(r.chk))}</ul></div></div>
+      ${r.saveti ? `<p style="background:var(--soft);border-radius:12px;padding:14px 16px;font-size:15px"><b>При увоз:</b> ${esc(String(r.saveti))}</p>` : ''}
+      <div style="display:flex;flex-wrap:wrap;gap:10px"><a class="btn btn-primary" href="#barane" id="aiAsk">Побарај го ова возило</a><a class="btn" style="border:1.5px solid var(--line);color:var(--fg)" href="#proverka">Провери по шасија</a></div>
+      <p class="mnote">Анализата ја прави вештачка интелигенција врз основа на општи искуства и може да греши. Секое возило е различно: проверете ја историјата по шасија и сервисната книшка пред да платите.</p></article>`;
+      document.getElementById('aiAsk').addEventListener('click', () => { document.getElementById('model').value = naziv; document.getElementById('godina').value = god; if (gor) document.getElementById('gorivo').value = gor; });
+    } catch (x) {
+      if (x && x.name === 'AbortError') return;
+      out.innerHTML = '';
+      if (x && x.code === 'not_granted') { box.hidden = true; return; }
+      showErr(x && x.code === 'rate_limited' ? 'Премногу барања. Обидете се повторно за една минута.' : 'Анализата не успеа. Обидете се повторно.');
+    } finally { btn.disabled = false; btn.textContent = 'Анализирај'; }
+  });
+})();
+const vinForm = document.getElementById('vinForm'), vinInput = document.getElementById('vinInput'), vinErr = document.getElementById('vinErr');
+vinInput.addEventListener('input', () => { vinInput.value = vinInput.value.toUpperCase().replace(/\s/g,''); vinErr.hidden = true; });
+vinForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const v = vinInput.value.trim();
+  if (v.length !== 17) { vinErr.textContent = `Бројот на шасија има 17 знаци. Внесени се ${v.length}.`; vinErr.hidden = false; return; }
+  if (/[IOQ]/.test(v)) { vinErr.textContent = 'Бројот на шасија не содржи I, O или Q. Проверете дали се 1 и 0.'; vinErr.hidden = false; return; }
+  if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(v)) { vinErr.textContent = 'Дозволени се само латински букви и бројки.'; vinErr.hidden = false; return; }
+  const a = document.createElement('a'); a.href = CARVERTICAL_LINK; a.target = '_blank'; a.rel = 'noopener';
+  document.body.appendChild(a); a.click(); a.remove();
+});
+const reqForm = document.getElementById('reqForm'), reqErr = document.getElementById('reqErr'), reqDone = document.getElementById('reqDone');
+reqForm.addEventListener('input', () => { reqErr.hidden = true; });
+reqForm.querySelectorAll('input[name=vid]').forEach(r => r.addEventListener('change', () => { document.getElementById('linkBox').hidden = !document.getElementById('v-imam').checked; }));
+reqForm.addEventListener('submit', e => {
+  e.preventDefault();
+  const ime = document.getElementById('ime').value.trim(), tel = document.getElementById('tel').value.trim();
+  if (!ime) { reqErr.textContent = 'Напишете го вашето име.'; reqErr.hidden = false; return; }
+  if (tel.replace(/\D/g,'').length < 8) { reqErr.textContent = 'Внесете телефон или Viber број, барем 8 цифри.'; reqErr.hidden = false; return; }
+  if (!document.getElementById('soglasnost').checked) { reqErr.textContent = 'Потребна е согласност за да го проследиме барањето.'; reqErr.hidden = false; return; }
+  const tip = reqForm.querySelector('input[name=tip]:checked').value;
+  const imam = document.getElementById('v-imam').checked, link = document.getElementById('link').value.trim();
+  if (imam && !/^https?:\/\/\S+\.\S+/.test(link)) { reqErr.textContent = 'Внесете целосен линк до огласот, што почнува со https://'; reqErr.hidden = false; return; }
+  reqDone.textContent = imam
+    ? `Пробна верзија: барањето за пресметка на најденото возило не е испратено. Во вистинската страница линкот ќе оди до партнерот.`
+    : `Пробна верзија: барањето за ${tip.toLowerCase()} „${document.getElementById('model').value || 'без модел'}“ не е испратено. Во вистинската страница тука ќе оди до партнерот.`;
+  reqDone.hidden = false;
+});
+</script>
+
+</body></html>
