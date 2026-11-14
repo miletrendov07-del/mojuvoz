@@ -229,7 +229,6 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
 .swipe{display:none;font-family:var(--mono);font-size:12px;color:var(--muted);margin:-14px 0 14px}
 </style>
 
-<div class="demo">Пробна верзија · формуларот и линковите се примери, уште ништо не се праќа</div>
 
 <header>
  <div class="wrap nav">
@@ -347,16 +346,17 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
      <input type="radio" name="tip" id="t-masina" value="Машина"><label for="t-masina">Градежна машина</label>
     </div>
    </fieldset>
-   <div class="f"><label for="model">Марка и модел</label><input id="model" placeholder="пр. Golf 7, VW Crafter" value="Škoda Octavia Combi"></div>
+   <div class="f"><label for="model">Марка и модел</label><input id="model" placeholder="пр. Golf 7, VW Crafter"></div>
    <div class="f"><label for="budzet">Буџет до таблички</label><select id="budzet"><option>до 8.000 €</option><option selected>8.000–15.000 €</option><option>15.000–25.000 €</option><option>над 25.000 €</option></select></div>
-   <div class="f"><label for="godina">Година од</label><input id="godina" inputmode="numeric" maxlength="4" value="2018"></div>
+   <div class="f"><label for="godina">Година од</label><input id="godina" inputmode="numeric" maxlength="4" placeholder="пр. 2018"></div>
    <div class="f"><label for="gorivo">Гориво</label><select id="gorivo"><option selected>Дизел</option><option>Бензин</option><option>Хибрид</option><option>Електрично</option><option>Сеедно</option></select></div>
    <div class="f"><label for="ime">Име</label><input id="ime" autocomplete="given-name" placeholder="Вашето име"></div>
    <div class="f"><label for="tel">Телефон или Viber</label><input id="tel" inputmode="tel" autocomplete="tel" placeholder="07x xxx xxx"></div>
    <div class="f full"><label for="zabeleska">Нешто друго? (по избор)</label><textarea id="zabeleska" rows="3" placeholder="Боја, менувач, опрема..."></textarea></div>
    <label class="check f full" for="soglasnost"><input type="checkbox" id="soglasnost"><span>Се согласувам податоците да се проследат до еден партнер за увоз, само за ова барање.</span></label>
    <p class="err f full" id="reqErr" hidden></p>
-   <button class="btn btn-primary f full" type="submit">Испрати барање</button>
+   <input type="text" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+   <button class="btn btn-primary f full" type="submit" id="reqBtn">Испрати барање</button>
    <p class="done" id="reqDone" hidden></p>
   </form>
  </div>
@@ -465,6 +465,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
 <nav class="mbar" aria-label="Брзи акции"><a class="btn btn-primary" href="#barane">Побарај возило</a><a class="btn btn-ghost" href="#proverka">Провери шасија</a></nav>
 
 <script>
+const FORM_ENDPOINT = "https://formsubmit.co/ajax/miletrendov07@gmail.com";
 const CARVERTICAL_LINK = "https://www.carvertical.com/"; // ќе се замени со партнерскиот линк
 const MODELI = [
  {k:'golf7',n:'VW Golf 7',y:'2012–2020',rep:'Добра · најпроверениот Golf',
@@ -765,10 +766,26 @@ reqForm.addEventListener('submit', e => {
   const tip = reqForm.querySelector('input[name=tip]:checked').value;
   const imam = document.getElementById('v-imam').checked, link = document.getElementById('link').value.trim();
   if (imam && !/^https?:\/\/\S+\.\S+/.test(link)) { reqErr.textContent = 'Внесете целосен линк до огласот, што почнува со https://'; reqErr.hidden = false; return; }
-  reqDone.textContent = imam
-    ? `Пробна верзија: барањето за пресметка на најденото возило не е испратено. Во вистинската страница линкот ќе оди до партнерот.`
-    : `Пробна верзија: барањето за ${tip.toLowerCase()} „${document.getElementById('model').value || 'без модел'}“ не е испратено. Во вистинската страница тука ќе оди до партнерот.`;
-  reqDone.hidden = false;
+  if (document.getElementById('hp').value) return;
+  const v = id => document.getElementById(id).value.trim();
+  const data = {
+    _subject: `Мој Увоз: ново барање од ${ime}`,
+    _template: 'table', _captcha: 'false',
+    'Барање': imam ? 'Веќе најдов возило' : 'Најдете ми возило',
+    'Линк до оглас': imam ? link : '',
+    'Тип': tip, 'Марка и модел': v('model'), 'Буџет': v('budzet'), 'Година од': v('godina'), 'Гориво': v('gorivo'),
+    'Име': ime, 'Телефон / Viber': tel, 'Забелешка': v('zabeleska')
+  };
+  const btn = document.getElementById('reqBtn');
+  btn.disabled = true; btn.textContent = 'Се праќа...'; reqDone.hidden = true;
+  fetch(FORM_ENDPOINT, {method:'POST', headers:{'Content-Type':'application/json','Accept':'application/json'}, body: JSON.stringify(data)})
+    .then(r => r.json().catch(() => ({})).then(j => { if (!r.ok || j.success === false || j.success === 'false') throw new Error(); }))
+    .then(() => {
+      reqDone.textContent = `Ви благодариме, ${ime}! Барањето е испратено. Ќе ви се јавиме на ${tel} наскоро.`;
+      reqDone.hidden = false; reqForm.reset(); document.getElementById('linkBox').hidden = true;
+    })
+    .catch(() => { reqErr.textContent = 'Барањето не се испрати. Проверете ја интернет врската и обидете се повторно.'; reqErr.hidden = false; })
+    .finally(() => { btn.disabled = false; btn.textContent = 'Испрати барање'; });
 });
 </script>
 
