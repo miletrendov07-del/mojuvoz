@@ -347,7 +347,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
     </div>
    </fieldset>
    <div class="f"><label for="model">Марка и модел</label><input id="model" placeholder="пр. Golf 7, VW Crafter"></div>
-   <div class="f"><label for="budzet">Буџет до таблички</label><select id="budzet"><option>до 8.000 €</option><option selected>8.000–15.000 €</option><option>15.000–25.000 €</option><option>над 25.000 €</option></select></div>
+   <div class="f"><label for="budzet">Буџет до таблички</label><select id="budzet"><option value="">Изберете износ</option></select><input id="budzetRacno" inputmode="numeric" placeholder="или внесете сами, пр. 7.300 €" style="margin-top:8px"></div>
    <div class="f"><label for="godina">Година од</label><input id="godina" inputmode="numeric" maxlength="4" placeholder="пр. 2018"></div>
    <div class="f"><label for="gorivo">Гориво</label><select id="gorivo"><option selected>Дизел</option><option>Бензин</option><option>Хибрид</option><option>Електрично</option><option>Сеедно</option></select></div>
    <div class="f"><label for="ime">Име</label><input id="ime" autocomplete="given-name" placeholder="Вашето име"></div>
@@ -465,6 +465,16 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
 <nav class="mbar" aria-label="Брзи акции"><a class="btn btn-primary" href="#barane">Побарај возило</a><a class="btn btn-ghost" href="#proverka">Провери шасија</a></nav>
 
 <script>
+(() => {
+  const sel = document.getElementById('budzet'), fmt = n => n.toLocaleString('de-DE') + ' €';
+  const add = (val, txt) => { const o = document.createElement('option'); o.value = val; o.textContent = txt; sel.appendChild(o); };
+  for (let n = 500; n <= 50000; n += 500) add(fmt(n), fmt(n));
+  for (let n = 55000; n <= 100000; n += 5000) add(fmt(n), fmt(n));
+  add('над 100.000 €', 'над 100.000 €');
+  const racno = document.getElementById('budzetRacno');
+  racno.addEventListener('input', () => { if (racno.value.trim()) sel.value = ''; });
+  sel.addEventListener('change', () => { if (sel.value) racno.value = ''; });
+})();
 const FORM_ENDPOINT = "https://formsubmit.co/ajax/miletrendov07@gmail.com";
 const CARVERTICAL_LINK = "https://www.carvertical.com/"; // ќе се замени со партнерскиот линк
 const MODELI = [
@@ -766,6 +776,10 @@ reqForm.addEventListener('submit', e => {
   const tip = reqForm.querySelector('input[name=tip]:checked').value;
   const imam = document.getElementById('v-imam').checked, link = document.getElementById('link').value.trim();
   if (imam && !/^https?:\/\/\S+\.\S+/.test(link)) { reqErr.textContent = 'Внесете целосен линк до огласот, што почнува со https://'; reqErr.hidden = false; return; }
+  const racnoB = document.getElementById('budzetRacno').value.trim();
+  let budzet = document.getElementById('budzet').value;
+  if (racnoB) { const d = racnoB.replace(/\D/g,''); budzet = d ? Number(d).toLocaleString('de-DE') + ' €' : racnoB; }
+  if (!imam && !budzet) { reqErr.textContent = 'Изберете или внесете буџет.'; reqErr.hidden = false; return; }
   if (document.getElementById('hp').value) return;
   const v = id => document.getElementById(id).value.trim();
   const data = {
@@ -773,7 +787,7 @@ reqForm.addEventListener('submit', e => {
     _template: 'table', _captcha: 'false',
     'Барање': imam ? 'Веќе најдов возило' : 'Најдете ми возило',
     'Линк до оглас': imam ? link : '',
-    'Тип': tip, 'Марка и модел': v('model'), 'Буџет': v('budzet'), 'Година од': v('godina'), 'Гориво': v('gorivo'),
+    'Тип': tip, 'Марка и модел': v('model'), 'Буџет': budzet, 'Година од': v('godina'), 'Гориво': v('gorivo'),
     'Име': ime, 'Телефон / Viber': tel, 'Забелешка': v('zabeleska')
   };
   const btn = document.getElementById('reqBtn');
