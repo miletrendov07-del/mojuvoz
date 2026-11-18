@@ -87,9 +87,16 @@ section{padding-block:80px}
 .err{color:var(--warn);font-weight:600;font-size:14px;margin-top:10px}
 .vin ul{margin:16px 0 0;padding-left:20px;color:var(--muted)}
 .vin ul li{margin:4px 0}
-.promo{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;border:1.5px dashed var(--orange);border-radius:12px;background:var(--bg)}
-.promo-code{font:700 17px var(--mono);letter-spacing:.08em;padding:6px 12px;border-radius:8px;border:none;background:var(--orange);color:#fff;cursor:pointer}
-.promo-ok{color:var(--muted);font-size:14px}
+.coupon{display:flex;align-items:stretch;margin-top:16px;border-radius:14px;overflow:hidden;border:1.5px solid var(--orange);background:var(--surface)}
+.coupon-pct{flex:0 0 auto;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:12px 14px;background:var(--orange);color:#1b0d00;position:relative}
+.coupon-pct b{font:700 26px/1 var(--display)}
+.coupon-pct small{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+.coupon-pct::after{content:"";position:absolute;right:-1px;top:8px;bottom:8px;border-right:2px dashed var(--surface)}
+.coupon-body{flex:1;padding:12px 14px;display:flex;flex-direction:column;justify-content:center;gap:6px}
+.coupon-body p{font-size:15px;line-height:1.4}
+.coupon-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.coupon-code{font:700 16px var(--mono);letter-spacing:.1em;padding:6px 12px;border-radius:8px;border:1.5px dashed var(--orange);background:var(--bg);color:var(--fg);cursor:pointer}
+.coupon-ok{color:var(--ok);font-size:14px;font-weight:600}
 .disclose{font-size:13px;color:var(--muted);margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
 
 /* steps */
@@ -287,12 +294,18 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
     <label for="vinInput">Број на шасија (VIN)</label>
     <div class="vin-row">
      <input id="vinInput" name="vin" maxlength="17" autocomplete="off" spellcheck="false" placeholder="WBA8E9C55GK000000" aria-describedby="vinHint vinErr">
-     <button class="btn btn-primary" type="submit">Провери историја</button>
+     <button class="btn btn-primary" type="submit">Провери со 20% попуст</button>
     </div>
     <p class="hint" id="vinHint">17 знаци. Го има во сообраќајната и на долниот агол на шофершајбната.</p>
     <p class="err" id="vinErr" hidden></p>
-    <div class="promo"><span>Код за попуст <b>−20%</b></span><button type="button" class="promo-code" id="promoCode" aria-label="Копирај го кодот MOJUVOZ">MOJUVOZ</button><span class="promo-ok" id="promoOk" hidden>Копирано ✓</span></div>
-    <p class="hint">Внесете го кодот при плаќање на carVertical. <a href="#" id="cvNoVin">Немате VIN? Отворете carVertical со попуст</a></p>
+    <div class="coupon">
+     <div class="coupon-pct"><b>−20%</b><small>попуст</small></div>
+     <div class="coupon-body">
+      <p><b>Ексклузивно за Мој Увоз</b> — извештајот ве чини 20% помалку.</p>
+      <div class="coupon-row"><button type="button" class="coupon-code" id="promoCode" aria-label="Копирај го кодот MOJUVOZ">MOJUVOZ</button><span class="coupon-ok" id="promoOk" hidden>Копирано ✓</span></div>
+      <p class="hint" style="margin:0">Допрете за да го копирате и внесете го при плаќање.</p>
+     </div>
+    </div>
     <ul>
      <li>Извештајот го издава carVertical</li>
      <li>Го добивате веднаш на е-пошта</li>
@@ -760,7 +773,6 @@ document.getElementById('msearch').addEventListener('submit', e => { e.preventDe
   });
 })();
 document.getElementById('promoCode').addEventListener('click', () => { try { navigator.clipboard.writeText('MOJUVOZ'); } catch(e){} const ok=document.getElementById('promoOk'); ok.hidden=false; setTimeout(()=>ok.hidden=true,2000); });
-document.getElementById('cvNoVin').addEventListener('click', e => { e.preventDefault(); window.open(CARVERTICAL_LINK, '_blank', 'noopener'); });
 const vinForm = document.getElementById('vinForm'), vinInput = document.getElementById('vinInput'), vinErr = document.getElementById('vinErr');
 vinInput.addEventListener('input', () => { vinInput.value = vinInput.value.toUpperCase().replace(/\s/g,''); vinErr.hidden = true; });
 vinForm.addEventListener('submit', e => {
