@@ -87,6 +87,9 @@ section{padding-block:80px}
 .err{color:var(--warn);font-weight:600;font-size:14px;margin-top:10px}
 .vin ul{margin:16px 0 0;padding-left:20px;color:var(--muted)}
 .vin ul li{margin:4px 0}
+.promo{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;border:1.5px dashed var(--orange);border-radius:12px;background:var(--bg)}
+.promo-code{font:700 17px var(--mono);letter-spacing:.08em;padding:6px 12px;border-radius:8px;border:none;background:var(--orange);color:#fff;cursor:pointer}
+.promo-ok{color:var(--muted);font-size:14px}
 .disclose{font-size:13px;color:var(--muted);margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
 
 /* steps */
@@ -288,6 +291,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
     </div>
     <p class="hint" id="vinHint">17 знаци. Го има во сообраќајната и на долниот агол на шофершајбната.</p>
     <p class="err" id="vinErr" hidden></p>
+    <div class="promo"><span>Код за попуст <b>−20%</b></span><button type="button" class="promo-code" id="promoCode" aria-label="Копирај го кодот MOJUVOZ">MOJUVOZ</button><span class="promo-ok" id="promoOk" hidden>Копирано ✓</span></div>
+    <p class="hint">Внесете го кодот при плаќање на carVertical. <a href="#" id="cvNoVin">Немате VIN? Отворете carVertical со попуст</a></p>
     <ul>
      <li>Извештајот го издава carVertical</li>
      <li>Го добивате веднаш на е-пошта</li>
@@ -476,7 +481,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
   sel.addEventListener('change', () => { if (sel.value) racno.value = ''; });
 })();
 const FORM_ENDPOINT = "https://formsubmit.co/ajax/miletrendov07@gmail.com";
-const CARVERTICAL_LINK = "https://www.carvertical.com/"; // ќе се замени со партнерскиот линк
+const CARVERTICAL_LINK = "https://www.carvertical.deal/4GZ7DZC/826FH7/?source_id=AFF&sub1=mojuvoz"; // партнерски линк без VIN
+const CARVERTICAL_VIN_LINK = "https://www.carvertical.deal/4GZ7DZC/826FH7/?uid=106&source_id=AFF&sub1=mojuvoz&sub3="; // + VIN
 const MODELI = [
  {k:'golf7',n:'VW Golf 7',y:'2012–2020',rep:'Добра · најпроверениот Golf',
   plus:['Добро држење на пат и избалансирана шасија','Ја чува вредноста при препродажба','Делови има насекаде и се евтини'],
@@ -753,6 +759,8 @@ document.getElementById('msearch').addEventListener('submit', e => { e.preventDe
     } finally { btn.disabled = false; btn.textContent = 'Анализирај'; }
   });
 })();
+document.getElementById('promoCode').addEventListener('click', () => { try { navigator.clipboard.writeText('MOJUVOZ'); } catch(e){} const ok=document.getElementById('promoOk'); ok.hidden=false; setTimeout(()=>ok.hidden=true,2000); });
+document.getElementById('cvNoVin').addEventListener('click', e => { e.preventDefault(); window.open(CARVERTICAL_LINK, '_blank', 'noopener'); });
 const vinForm = document.getElementById('vinForm'), vinInput = document.getElementById('vinInput'), vinErr = document.getElementById('vinErr');
 vinInput.addEventListener('input', () => { vinInput.value = vinInput.value.toUpperCase().replace(/\s/g,''); vinErr.hidden = true; });
 vinForm.addEventListener('submit', e => {
@@ -761,7 +769,7 @@ vinForm.addEventListener('submit', e => {
   if (v.length !== 17) { vinErr.textContent = `Бројот на шасија има 17 знаци. Внесени се ${v.length}.`; vinErr.hidden = false; return; }
   if (/[IOQ]/.test(v)) { vinErr.textContent = 'Бројот на шасија не содржи I, O или Q. Проверете дали се 1 и 0.'; vinErr.hidden = false; return; }
   if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(v)) { vinErr.textContent = 'Дозволени се само латински букви и бројки.'; vinErr.hidden = false; return; }
-  const a = document.createElement('a'); a.href = CARVERTICAL_LINK; a.target = '_blank'; a.rel = 'noopener';
+  const a = document.createElement('a'); a.href = CARVERTICAL_VIN_LINK + encodeURIComponent(v); a.target = '_blank'; a.rel = 'noopener';
   document.body.appendChild(a); a.click(); a.remove();
 });
 const reqForm = document.getElementById('reqForm'), reqErr = document.getElementById('reqErr'), reqDone = document.getElementById('reqDone');
