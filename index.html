@@ -96,6 +96,7 @@ section{padding-block:80px}
 .coupon-body p{font-size:15px;line-height:1.4}
 .coupon-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .coupon-code{font:700 16px var(--mono);letter-spacing:.1em;padding:6px 12px;border-radius:8px;border:1.5px dashed var(--orange);background:var(--bg);color:var(--fg);cursor:pointer}
+.coupon-inline{font-family:var(--mono);letter-spacing:.06em;color:var(--fg)}
 .coupon-ok{color:var(--ok);font-size:14px;font-weight:600}
 .disclose{font-size:13px;color:var(--muted);margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
 
@@ -301,9 +302,8 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
     <div class="coupon">
      <div class="coupon-pct"><b>−20%</b><small>попуст</small></div>
      <div class="coupon-body">
-      <p><b>Ексклузивно за Мој Увоз</b> — извештајот ве чини 20% помалку.</p>
-      <div class="coupon-row"><button type="button" class="coupon-code" id="promoCode" aria-label="Копирај го кодот MOJUVOZ">MOJUVOZ</button><span class="coupon-ok" id="promoOk" hidden>Копирано ✓</span></div>
-      <p class="hint" style="margin:0">Допрете за да го копирате и внесете го при плаќање.</p>
+      <p><b>Проверете преку Мој Увоз и добивате 20% попуст</b> на извештајот за историјата.</p>
+      <p class="hint" style="margin:0">Кодот <b class="coupon-inline">MOJUVOZ</b> се копира сам кога ќе кликнете „Провери“. Ако попустот не е пресметан, само залепете го при плаќање.</p>
      </div>
     </div>
     <ul>
@@ -772,7 +772,6 @@ document.getElementById('msearch').addEventListener('submit', e => { e.preventDe
     } finally { btn.disabled = false; btn.textContent = 'Анализирај'; }
   });
 })();
-document.getElementById('promoCode').addEventListener('click', () => { try { navigator.clipboard.writeText('MOJUVOZ'); } catch(e){} const ok=document.getElementById('promoOk'); ok.hidden=false; setTimeout(()=>ok.hidden=true,2000); });
 const vinForm = document.getElementById('vinForm'), vinInput = document.getElementById('vinInput'), vinErr = document.getElementById('vinErr');
 vinInput.addEventListener('input', () => { vinInput.value = vinInput.value.toUpperCase().replace(/\s/g,''); vinErr.hidden = true; });
 vinForm.addEventListener('submit', e => {
@@ -781,6 +780,7 @@ vinForm.addEventListener('submit', e => {
   if (v.length !== 17) { vinErr.textContent = `Бројот на шасија има 17 знаци. Внесени се ${v.length}.`; vinErr.hidden = false; return; }
   if (/[IOQ]/.test(v)) { vinErr.textContent = 'Бројот на шасија не содржи I, O или Q. Проверете дали се 1 и 0.'; vinErr.hidden = false; return; }
   if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(v)) { vinErr.textContent = 'Дозволени се само латински букви и бројки.'; vinErr.hidden = false; return; }
+  try { navigator.clipboard.writeText('MOJUVOZ'); } catch(e){}
   const a = document.createElement('a'); a.href = CARVERTICAL_VIN_LINK + encodeURIComponent(v); a.target = '_blank'; a.rel = 'noopener';
   document.body.appendChild(a); a.click(); a.remove();
 });
