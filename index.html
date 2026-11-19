@@ -303,7 +303,7 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
      <div class="coupon-pct"><b>−20%</b><small>попуст</small></div>
      <div class="coupon-body">
       <p><b>Проверете преку Мој Увоз и добивате 20% попуст</b> на извештајот за историјата.</p>
-      <p class="hint" style="margin:0">Кодот <b class="coupon-inline">MOJUVOZ</b> се копира сам кога ќе кликнете „Провери“. Ако попустот не е пресметан, само залепете го при плаќање.</p>
+      <p class="hint" style="margin:0">Попустот се пресметува автоматски — не треба код.</p>
      </div>
     </div>
     <ul>
@@ -780,7 +780,6 @@ vinForm.addEventListener('submit', e => {
   if (v.length !== 17) { vinErr.textContent = `Бројот на шасија има 17 знаци. Внесени се ${v.length}.`; vinErr.hidden = false; return; }
   if (/[IOQ]/.test(v)) { vinErr.textContent = 'Бројот на шасија не содржи I, O или Q. Проверете дали се 1 и 0.'; vinErr.hidden = false; return; }
   if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(v)) { vinErr.textContent = 'Дозволени се само латински букви и бројки.'; vinErr.hidden = false; return; }
-  try { navigator.clipboard.writeText('MOJUVOZ'); } catch(e){}
   const a = document.createElement('a'); a.href = CARVERTICAL_VIN_LINK + encodeURIComponent(v); a.target = '_blank'; a.rel = 'noopener';
   document.body.appendChild(a); a.click(); a.remove();
 });
