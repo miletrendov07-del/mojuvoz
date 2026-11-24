@@ -302,8 +302,12 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
     <div class="coupon">
      <div class="coupon-pct"><b>−20%</b><small>попуст</small></div>
      <div class="coupon-body">
-      <p><b>Проверете преку Мој Увоз и добивате 20% попуст</b> на извештајот за историјата.</p>
-      <p class="hint" style="margin:0">Попустот се пресметува автоматски — не треба код.</p>
+      <p><b>20% попуст на carVertical извештајот</b> со кодот на Мој Увоз.</p>
+      <div class="coupon-row">
+       <button type="button" class="coupon-code" id="cvCode" aria-label="Копирај го кодот MOJUVOZ">MOJUVOZ</button>
+       <span class="coupon-ok" id="cvCodeOk" hidden>✓ Копирано</span>
+      </div>
+      <p class="hint" style="margin:0">Допрете за да го копирате, па внесете го кодот при плаќање кај carVertical.</p>
      </div>
     </div>
     <ul>
@@ -774,12 +778,22 @@ document.getElementById('msearch').addEventListener('submit', e => { e.preventDe
 })();
 const vinForm = document.getElementById('vinForm'), vinInput = document.getElementById('vinInput'), vinErr = document.getElementById('vinErr');
 vinInput.addEventListener('input', () => { vinInput.value = vinInput.value.toUpperCase().replace(/\s/g,''); vinErr.hidden = true; });
+const cvCode = document.getElementById('cvCode'), cvCodeOk = document.getElementById('cvCodeOk');
+function copyCvCode(show){
+  const done = () => { if (show) { cvCodeOk.hidden = false; setTimeout(() => cvCodeOk.hidden = true, 2500); } };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText('MOJUVOZ').then(done).catch(() => {}); return; }
+  } catch (_) {}
+  try { const t = document.createElement('textarea'); t.value = 'MOJUVOZ'; t.setAttribute('readonly',''); t.style.position = 'fixed'; t.style.opacity = '0'; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); done(); } catch (_) {}
+}
+cvCode.addEventListener('click', () => copyCvCode(true));
 vinForm.addEventListener('submit', e => {
   e.preventDefault();
   const v = vinInput.value.trim();
   if (v.length !== 17) { vinErr.textContent = `Бројот на шасија има 17 знаци. Внесени се ${v.length}.`; vinErr.hidden = false; return; }
   if (/[IOQ]/.test(v)) { vinErr.textContent = 'Бројот на шасија не содржи I, O или Q. Проверете дали се 1 и 0.'; vinErr.hidden = false; return; }
   if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(v)) { vinErr.textContent = 'Дозволени се само латински букви и бројки.'; vinErr.hidden = false; return; }
+  copyCvCode(false);
   const a = document.createElement('a'); a.href = CARVERTICAL_VIN_LINK + encodeURIComponent(v); a.target = '_blank'; a.rel = 'noopener';
   document.body.appendChild(a); a.click(); a.remove();
 });
