@@ -98,6 +98,11 @@ section{padding-block:80px}
 .coupon-code{font:700 16px var(--mono);letter-spacing:.1em;padding:6px 12px;border-radius:8px;border:1.5px dashed var(--orange);background:var(--bg);color:var(--fg);cursor:pointer}
 .coupon-inline{font-family:var(--mono);letter-spacing:.06em;color:var(--fg)}
 .coupon-ok{color:var(--ok);font-size:14px;font-weight:600}
+.cv-logo{height:20px;width:auto;display:block}
+.cv-logo-dark{display:none}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .cv-logo-light{display:none}:root:not([data-theme="light"]) .cv-logo-dark{display:block}}
+:root[data-theme="dark"] .cv-logo-light{display:none}
+:root[data-theme="dark"] .cv-logo-dark{display:block}
 .disclose{font-size:13px;color:var(--muted);margin-top:14px;border-top:1px solid var(--line);padding-top:12px}
 
 /* steps */
@@ -302,7 +307,9 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
     <div class="coupon">
      <div class="coupon-pct"><b>−20%</b><small>попуст</small></div>
      <div class="coupon-body">
-      <p><b>20% попуст на carVertical извештајот</b> со кодот на Мој Увоз.</p>
+      <img class="cv-logo cv-logo-light" src="img/carvertical-logo-blue.png" alt="carVertical" width="144" height="20">
+      <img class="cv-logo cv-logo-dark" src="img/carvertical-logo-white.png" alt="carVertical" width="139" height="20">
+      <p><b>20% попуст на извештајот</b> со кодот на Мој Увоз.</p>
       <div class="coupon-row">
        <button type="button" class="coupon-code" id="cvCode" aria-label="Копирај го кодот MOJUVOZ">MOJUVOZ</button>
        <span class="coupon-ok" id="cvCodeOk" hidden>✓ Копирано</span>
