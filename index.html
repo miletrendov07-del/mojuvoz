@@ -148,6 +148,15 @@ form.req{background:var(--surface);border:1px solid var(--line);border-radius:20
 .types label{font-weight:600;font-size:15px;padding:10px 16px;border-radius:999px;border:1.5px solid var(--line);cursor:pointer;background:var(--bg)}
 .types input:checked + label{background:var(--navy);border-color:var(--navy);color:#fff}
 .types input:focus-visible + label{outline:3px solid var(--orange);outline-offset:2px}
+.tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (min-width:700px){.tiles{grid-template-columns:repeat(4,minmax(0,1fr))}}
+.tiles.tiles3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tiles input{position:absolute;opacity:0;width:1px;height:1px}
+.tiles label{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;min-height:76px;font-weight:600;font-size:15px;padding:10px 8px;min-width:0;border-radius:12px;border:1.5px solid var(--line);cursor:pointer;background:var(--bg);line-height:1.2}
+.tiles .ti{width:52px;height:26px;flex-shrink:0;color:var(--muted)}
+.tiles input:checked + label{background:var(--navy);border-color:var(--orange);color:#fff}
+.tiles input:checked + label .ti{color:var(--orange)}
+.tiles input:focus-visible + label{outline:3px solid var(--orange);outline-offset:2px}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:14px;color:var(--muted)}
 .check input{margin-top:4px;width:18px;height:18px;accent-color:var(--orange)}
 .done{grid-column:1/-1;background:var(--soft);border-radius:12px;padding:16px 18px;font-weight:600}
@@ -379,13 +388,34 @@ footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:20px;
      <input type="radio" name="tip" id="t-masina" value="Машина"><label for="t-masina">Градежна машина</label>
     </div>
    </fieldset>
+   <fieldset class="f full" id="karBox" style="border:0;padding:0;margin:0">
+    <legend style="font-weight:700;font-size:14px;margin-bottom:6px">Каросерија</legend>
+    <div class="tiles">
+     <input type="radio" name="karoserija" id="karoserija-seedno" value="Сеедно" checked><label for="karoserija-seedno"><svg class="ti" viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="16" y="4" width="12" height="10" rx="2"/><rect x="36" y="4" width="12" height="10" rx="2"/><rect x="16" y="18" width="12" height="10" rx="2"/><rect x="36" y="18" width="12" height="10" rx="2"/></svg><span>Сеедно</span></label>
+     <input type="radio" name="karoserija" id="karoserija-hecbek" value="Хечбек"><label for="karoserija-hecbek"><svg class="ti" viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 24 V18 Q5 16 7 16 L9 9 H37 L45 16 H56 Q59 16 59 19 V24"/><circle cx="16" cy="24" r="4.5"/><circle cx="48" cy="24" r="4.5"/></svg><span>Хечбек</span></label>
+     <input type="radio" name="karoserija" id="karoserija-limuzina" value="Лимузина"><label for="karoserija-limuzina"><svg class="ti" viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 24 V18 Q3 16 6 16 H58 Q61 16 61 19 V24"/><path d="M13 16 L20 9 H38 L46 16"/><circle cx="16" cy="24" r="4.5"/><circle cx="48" cy="24" r="4.5"/></svg><span>Лимузина</span></label>
+     <input type="radio" name="karoserija" id="karoserija-karavan" value="Караван"><label for="karoserija-karavan"><svg class="ti" viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 24 V18 Q3 16 6 16 H58 Q61 16 61 19 V24"/><path d="M5 16 L7 9 H38 L46 16"/><circle cx="16" cy="24" r="4.5"/><circle cx="48" cy="24" r="4.5"/></svg><span>Караван</span></label>
+     <input type="radio" name="karoserija" id="karoserija-terenec" value="Теренец (SUV)"><label for="karoserija-terenec"><svg class="ti" viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 24 V15 Q3 13 6 13 H58 Q61 13 61 16 V24"/><path d="M5 13 L7 5 H40 L48 13"/><circle cx="16" cy="24" r="4.5"/><circle cx="48" cy="24" r="4.5"/></svg><span>Теренец (SUV)</span></label>
+     <input type="radio" name="karoserija" id="karoserija-kombi" value="Комби / Миниван"><label for="karoserija-kombi"><svg class="ti" viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 24 V7 Q3 5 6 5 H42 L55 14 Q61 15 61 18 V24"/><circle cx="16" cy="24" r="4.5"/><circle cx="48" cy="24" r="4.5"/></svg><span>Комби / Миниван</span></label>
+     <input type="radio" name="karoserija" id="karoserija-kupe" value="Купе"><label for="karoserija-kupe"><svg class="ti" viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 24 V18 Q3 16 6 16 H58 Q61 16 61 19 V24"/><path d="M14 16 Q22 8 34 9 L45 16"/><circle cx="16" cy="24" r="4.5"/><circle cx="48" cy="24" r="4.5"/></svg><span>Купе</span></label>
+     <input type="radio" name="karoserija" id="karoserija-kabriolet" value="Кабриолет"><label for="karoserija-kabriolet"><svg class="ti" viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 24 V18 Q3 16 6 16 H58 Q61 16 61 19 V24"/><path d="M40 16 L35 10"/><path d="M12 16 Q14 13 19 13.5"/><circle cx="16" cy="24" r="4.5"/><circle cx="48" cy="24" r="4.5"/></svg><span>Кабриолет</span></label>
+    </div>
+   </fieldset>
+   <fieldset class="f full" id="menBox" style="border:0;padding:0;margin:0">
+    <legend style="font-weight:700;font-size:14px;margin-bottom:6px">Менувач</legend>
+    <div class="tiles tiles3">
+     <input type="radio" name="menuvac" id="menuvac-seedno" value="Сеедно" checked><label for="menuvac-seedno"><svg class="ti" viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="16" y="4" width="12" height="10" rx="2"/><rect x="36" y="4" width="12" height="10" rx="2"/><rect x="16" y="18" width="12" height="10" rx="2"/><rect x="36" y="18" width="12" height="10" rx="2"/></svg><span>Сеедно</span></label>
+     <input type="radio" name="menuvac" id="menuvac-avtomatski" value="Автоматски"><label for="menuvac-avtomatski"><svg class="ti" viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="20" y="3" width="24" height="26" rx="5"/><path d="M27 23 L32 9 L37 23 M29 18 H35"/></svg><span>Автоматски</span></label>
+     <input type="radio" name="menuvac" id="menuvac-racen" value="Рачен"><label for="menuvac-racen"><svg class="ti" viewBox="0 0 64 32" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M20 5 V27 M32 5 V27 M44 5 V27 M20 16 H44"/><circle cx="20" cy="5" r="2" fill="currentColor"/><circle cx="32" cy="5" r="2" fill="currentColor"/><circle cx="44" cy="5" r="2" fill="currentColor"/><circle cx="20" cy="27" r="2" fill="currentColor"/><circle cx="32" cy="27" r="2" fill="currentColor"/><circle cx="44" cy="27" r="2" fill="currentColor"/></svg><span>Рачен</span></label>
+    </div>
+   </fieldset>
    <div class="f"><label for="model">Марка и модел</label><input id="model" placeholder="пр. Golf 7, VW Crafter"></div>
    <div class="f"><label for="budzet">Буџет до таблички</label><select id="budzet"><option value="">Изберете износ</option></select><input id="budzetRacno" inputmode="numeric" placeholder="или внесете сами, пр. 7.300 €" style="margin-top:8px"></div>
    <div class="f"><label for="godina">Година од</label><input id="godina" inputmode="numeric" maxlength="4" placeholder="пр. 2018"></div>
    <div class="f"><label for="gorivo">Гориво</label><select id="gorivo"><option selected>Дизел</option><option>Бензин</option><option>Хибрид</option><option>Електрично</option><option>Сеедно</option></select></div>
    <div class="f"><label for="ime">Име</label><input id="ime" autocomplete="given-name" placeholder="Вашето име"></div>
    <div class="f"><label for="tel">Телефон или Viber</label><input id="tel" inputmode="tel" autocomplete="tel" placeholder="07x xxx xxx"></div>
-   <div class="f full"><label for="zabeleska">Нешто друго? (по избор)</label><textarea id="zabeleska" rows="3" placeholder="Боја, менувач, опрема..."></textarea></div>
+   <div class="f full"><label for="zabeleska">Нешто друго? (по избор)</label><textarea id="zabeleska" rows="3" placeholder="Боја, опрема, километража..."></textarea></div>
    <label class="check f full" for="soglasnost"><input type="checkbox" id="soglasnost"><span>Се согласувам податоците да се проследат до еден партнер за увоз, само за ова барање.</span></label>
    <p class="err f full" id="reqErr" hidden></p>
    <input type="text" id="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
@@ -1121,6 +1151,8 @@ vinForm.addEventListener('submit', e => {
 });
 const reqForm = document.getElementById('reqForm'), reqErr = document.getElementById('reqErr'), reqDone = document.getElementById('reqDone');
 reqForm.addEventListener('input', () => { reqErr.hidden = true; });
+const syncTip = () => { const t = reqForm.querySelector('input[name=tip]:checked').value; document.getElementById('karBox').hidden = t !== 'Кола'; document.getElementById('menBox').hidden = t === 'Машина'; };
+reqForm.querySelectorAll('input[name=tip]').forEach(r => r.addEventListener('change', syncTip));
 reqForm.querySelectorAll('input[name=vid]').forEach(r => r.addEventListener('change', () => { document.getElementById('linkBox').hidden = !document.getElementById('v-imam').checked; }));
 reqForm.addEventListener('submit', e => {
   e.preventDefault();
@@ -1142,7 +1174,7 @@ reqForm.addEventListener('submit', e => {
     _template: 'table', _captcha: 'false',
     'Барање': imam ? 'Веќе најдов возило' : 'Најдете ми возило',
     'Линк до оглас': imam ? link : '',
-    'Тип': tip, 'Марка и модел': v('model'), 'Буџет': budzet, 'Година од': v('godina'), 'Гориво': v('gorivo'),
+    'Тип': tip, 'Каросерија': tip === 'Кола' ? reqForm.querySelector('input[name=karoserija]:checked').value : '', 'Менувач': tip === 'Машина' ? '' : reqForm.querySelector('input[name=menuvac]:checked').value, 'Марка и модел': v('model'), 'Буџет': budzet, 'Година од': v('godina'), 'Гориво': v('gorivo'),
     'Име': ime, 'Телефон / Viber': tel, 'Забелешка': v('zabeleska')
   };
   const btn = document.getElementById('reqBtn');
@@ -1151,7 +1183,7 @@ reqForm.addEventListener('submit', e => {
     .then(r => r.json().catch(() => ({})).then(j => { if (!r.ok || j.success === false || j.success === 'false') throw new Error(); }))
     .then(() => {
       reqDone.textContent = `Ви благодариме, ${ime}! Барањето е испратено. Ќе ви се јавиме на ${tel} наскоро.`;
-      reqDone.hidden = false; reqForm.reset(); document.getElementById('linkBox').hidden = true;
+      reqDone.hidden = false; reqForm.reset(); document.getElementById('linkBox').hidden = true; syncTip();
     })
     .catch(() => { reqErr.textContent = 'Барањето не се испрати. Проверете ја интернет врската и обидете се повторно.'; reqErr.hidden = false; })
     .finally(() => { btn.disabled = false; btn.textContent = 'Испрати барање'; });
